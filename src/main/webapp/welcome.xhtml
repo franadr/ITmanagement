@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+        xmlns:b="http://bootsfaces.net/ui">
+
+
+<f:event listener="#{loginController.loginCheck}" type="preRenderView" />
+    <h:head>
+
+    </h:head>
+    <h:body>
+        <b:container>
+            <b:row>
+                <b:column mediumScreen="2">
+                    <h:form>
+                        <b:inputText></b:inputText>
+                        <b:commandButton id="button1" value="Button1" ajax="true" update="standardMsg" />
+                        <b:commandButton id="button2"  value="Button2" ajax="true" look="primary" update="standardMsg" />
+                        <b:commandButton id="button3"  value="Button3" ajax="true" icon="plus-sign" update="standardMsg" />
+                        <b:defaultCommand target="button2" />
+                        <br/><br/>
+                        <b:messages id="standardMsg" globalOnly="true" />
+                    </h:form>
+                </b:column>
+
+            </b:row>
+        </b:container>
+
+    </h:body>
+</html>
