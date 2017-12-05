@@ -1,20 +1,25 @@
 package models.entites.jpa;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import models.entites.jpa.ItDevices.It_device;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long user_id;
 
     String username;
 
     String password;
+
+    @OneToMany(mappedBy = "owner")
+    List<It_device> it_devices;
+
 
     @ManyToOne
     @JoinColumn(name = "user_group_id")

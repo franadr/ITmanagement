@@ -1,5 +1,8 @@
 package models.entites.jpa.ItDevices;
 
+import models.entites.jpa.User;
+import models.entites.jpa.User_group;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,6 +14,10 @@ public abstract class It_device implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long device_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User owner;
 
     private String mac_address;
     private String device_name;

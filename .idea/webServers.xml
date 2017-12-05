@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="082f7d72-d897-4782-acc7-8bdd7335aa34" name="docker-wildfly" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="$USER_HOME$/CloudStation/Uni.lu/BINFO/Semestre 5/Java EE/Assignement/sources/docker-wildfly-mysql/wildfly/dist" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
