@@ -9,7 +9,8 @@
       xmlns:b="http://bootsfaces.net/ui" 
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:metadata>
-    <f:viewAction action="#{laptopController.getTheLaptopList(loginController.user)}" />
+    <f:viewAction action="#{loginController.loginCheck()}" />
+    <f:viewAction action="#{itdeviceController.getTheLaptopList(loginController.user)}" />
 </f:metadata>
 
 <h:body>
@@ -18,22 +19,44 @@
     
         <ui:define name="content">
 
-            <c:if test="#{laptopController.listNotEmpty}">
-            <ui:repeat var="aLaptop" value="#{laptopController.laptopList}" >
-
-            </ui:repeat>
+            <c:if test="#{itdeviceController.listNotEmpty}">
+                <b:panel title="Laptops" collapsible="false">
+                    <h:form>
+                        <b:dataTable value="#{itdeviceController.laptopList}"
+                                     var="laptop">
+                            <b:dataTableColumn value="#{laptop.owner.username}" rendered="#{loginController.user.ug.user_group_id eq 1}" label="Owner"/>
+                            <b:dataTableColumn value="#{laptop.mac_address}" />
+                            <b:dataTableColumn value="#{laptop.device_name}" />
+                            <b:dataTableColumn value="#{laptop.screen_size}" />
+                            <b:dataTableColumn value="#{laptop.CPU_count}" />
+                            <b:dataTableColumn value="#{laptop.CPU_speed}" />
+                            <b:dataTableColumn value="#{laptop.disk_space}" />
+                            <b:dataTableColumn value="#{laptop.manufacturer}" />
+                            <b:dataTableColumn value="#{laptop.RAM}" />
+                        </b:dataTable>
+                    </h:form>
+                </b:panel>
             </c:if>
+                <b:panel title="Printers" collapsible="false">
+                    <h:outputText value="Panel Content" />
+                </b:panel>
+                <b:panel title="Desktops" collapsible="false">
+                    <h:outputText value="Panel Content" />
+                </b:panel>
+
+
+
 
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Laptop Name " />
-                    <h:inputText value="#{laptopController.l.device_name}" />
+                    <h:inputText value="#{ItdeviceController.l.device_name}" />
                     <h:outputText value="Laptop screen size: " />
-                    <h:inputText value="#{laptopController.l.screen_size}" />
+                    <h:inputText value="#{ItdeviceController.l.screen_size}" />
                     <h:outputText value="Laptop RAM: " />
-                    <h:inputText value="#{laptopController.l.RAM}" />
+                    <h:inputText value="#{ItdeviceController.l.RAM}" />
                     <h:outputText value =" " /> <h:outputText value =" " />
-                    <h:commandButton value="Create/Update Laptop" action="#{laptopController.saveDevice(loginController.user)}"/>
+                    <h:commandButton value="Create/Update Laptop" action="#{ItdeviceController.saveDevice(loginController.user)}"/>
                 </h:panelGrid>
             </h:form>
 

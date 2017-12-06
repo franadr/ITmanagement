@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+<f:metadata>
+    <f:viewAction action="#{loginController.loginCheck()}" />
+</f:metadata>
+<h:body>
+
+    <ui:composition template="WEB-INF/template/layout.xhtml">
+
+        <ui:define name="content">
+            <b:panel title="Users" collapsible="false">
+                <h:form>
+                    <b:dataTable value="#{usersController.userList}"
+                                 var="user">
+                        <b:dataTableColumn value="#{user.username}" label="Username"/>
+                        <b:dataTableColumn value="#{user.ug.user_group_name}" label="User group" />
+                        <b:dataTableColumn value="#{user.user_id}" label="User ID"/>
+
+                    </b:dataTable>
+                </h:form>
+            </b:panel>
+            <b:panel title="Add User" collapsed="true" collapsible="true" span="6">
+                <b:form horizontal="true">
+                    <b:inputText placeholder="Username" required="true" label="Username" colMd="9" labelColMd="3" value="#{usersController.user_add.username}">
+                        <f:facet name="prepend">
+                            <b:icon name="user" />
+                        </f:facet>
+                    </b:inputText>
+
+                    <b:inputText placeholder="Password" label="Password" colMd="9" labelColMd="3" value="#{usersController.user_add.password}" disabled="true">
+                        <f:facet name="prepend">
+                            <b:iconAwesome name="key" />
+                        </f:facet>
+                    </b:inputText>
+                    <b:selectOneMenu value="#{usersController.user_add.ug}" colMd="6" required="true" label="User group" labelColMd="3">
+                        <f:selectItem itemLabel="(Please select)" itemValue="" />
+
+                        <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
+
+                    </b:selectOneMenu>
+                </b:form>
+            </b:panel>
+
+        </ui:define>
+
+
+    </ui:composition>
+</h:body>
+</html>

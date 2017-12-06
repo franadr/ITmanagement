@@ -17,18 +17,25 @@
         <ui:insert name="header">
             <b:navBar brand="IT device management" >
                 <b:navbarLinks>
-                    <b:navLink value="Device list" href="#"></b:navLink>
+                        <b:navLink value="Device list" href="#" rendered="#{loginController.user.ug.user_group_id eq 3}"/>
+                        <b:dropMenu value="Devices" iconAwesome="desktop" iconAlign="right"
+                                    rendered="#{(loginController.user.ug.user_group_id eq 2) or (loginController.user.ug.user_group_id eq 1)}">
+                            <b:navLink value="All devices"  href="#"/>
+                            <b:navLink value="Add/modify Devices" iconAwesome="pencil-square-o" href="#" rendered="#{loginController.user.ug.user_group_id eq 1}"/>
+                        </b:dropMenu>
 
-                        <b:navLink value="Tickets" href="#" rendered="#{(loginController.user.ug.user_group_id eq 2) or (loginController.user.ug.user_group_id eq 1)}"></b:navLink>
-                        <b:navLink value="Admin" href="#" rendered="#{loginController.user.ug.user_group_id eq 1}"></b:navLink>
+
+                        <b:navLink value="Tickets" href="#"
+                                   rendered="#{(loginController.user.ug.user_group_id eq 2) or (loginController.user.ug.user_group_id eq 1)}"/>
+                        <b:navLink value="User management" iconAwesome="user" href="/UserManagement.xhtml" rendered="#{loginController.user.ug.user_group_id eq 1}"/>
 
 
                 </b:navbarLinks>
-                <b:navbarLinks pull="right"><b:navLink value="    " href="#"></b:navLink></b:navbarLinks>
+                <b:navbarLinks pull="right"><b:navLink value="    " href="#"/></b:navbarLinks>
                 <b:navbarLinks pull="right" styleClass="hidden-xs">
                     <b:navLink>
                         <b:form>
-                            <b:commandButton value="logout" action="#{loginController.logout()}"></b:commandButton>
+                            <b:commandButton look="primary" value="#{loginController.user.username} logout..." action="#{loginController.logout()}"/>
                         </b:form>
                     </b:navLink>
 

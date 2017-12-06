@@ -10,11 +10,9 @@ import java.util.List;
 
 public interface It_deviceService {
 
-    public void addUpdateDevice(It_device i);
-    public void removeDevice(It_device i);
-    public List<Laptop> getLaptopByUser(User u);
-    public List<Desktop> getDesktopsByUser(User u);
-    public List<Printer> getPrinterByUser(User u);
+    void addUpdateDevice(It_device i);
+    void removeDevice(It_device i);
 
     <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u);
+    <T extends It_device> List getItdevice(Class<T> entityClass);
 }

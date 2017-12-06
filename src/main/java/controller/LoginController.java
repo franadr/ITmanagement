@@ -9,9 +9,10 @@ import models.entites.jpa.User_group;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
@@ -28,12 +29,12 @@ public class LoginController implements Serializable {
     private boolean isloogedIn = false;
     private ArrayList<NavLink> navlink = new ArrayList<>();
     static Logger logger = Logger.getLogger("LoginController");
-    @EJB
-    private
-    LoginService loginService;
+
+
+    @EJB private LoginService loginService;
 
     public LoginController(){
-        logger.info("Navlink init, loginController constructor");
+        logger.info("loginController constructor");
         navlink.add(new NavLink("home","home"));
         navlink.add(new NavLink("logout","logout"));
     }
@@ -90,13 +91,11 @@ public class LoginController implements Serializable {
         this.isloogedIn = isloogedIn;
     }
 
-    @PostConstruct
-    public void loginCheck(ComponentSystemEvent event){
+    public void loginCheck(){
         if(!this.isloogedIn){
             logger.info("Access denied");
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "login");
-
         }else
             logger.info("Access granted");
 
