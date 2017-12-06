@@ -6,10 +6,12 @@ import models.NavLink;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
@@ -18,12 +20,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-@Named
+@ManagedBean
 @SessionScoped
 public class LoginController implements Serializable {
     private User user = new User();
     private User_group user_group;
-    private boolean isloogedIn =false;
+    private boolean isloogedIn = false;
     private ArrayList<NavLink> navlink = new ArrayList<>();
     static Logger logger = Logger.getLogger("LoginController");
     @EJB
@@ -102,7 +104,6 @@ public class LoginController implements Serializable {
 
     public String logout(){
         logger.info("user logout log out");
-        navlink.clear();
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext()
                 .getSession(true)).invalidate();
         return "/login.xhtml?faces-redirect=true";

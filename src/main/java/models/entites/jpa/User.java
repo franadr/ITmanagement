@@ -4,10 +4,14 @@ package models.entites.jpa;
 import models.entites.jpa.ItDevices.It_device;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +24,14 @@ public class User {
     @OneToMany(mappedBy = "owner")
     List<It_device> it_devices;
 
+    @OneToMany(mappedBy="requester")
+    List<Ticket> requestedTickets;
+
+    @OneToMany(mappedBy="supportStaff")
+    List<Ticket> handlingTickets;
+
+    @OneToMany(mappedBy = "message_origin")
+    List<Ticket_Message> ticket_Ticket_messages;
 
     @ManyToOne
     @JoinColumn(name = "user_group_id")

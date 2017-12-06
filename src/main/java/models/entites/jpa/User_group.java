@@ -5,11 +5,12 @@ import models.entites.jpa.ItDevices.Laptop;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class User_group {
-
+public class User_group implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     private
     Long user_group_id;

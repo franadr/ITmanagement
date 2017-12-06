@@ -19,6 +19,8 @@ public abstract class It_device implements Serializable{
     @JoinColumn(name = "user_id")
     User owner;
 
+
+
     private String mac_address;
     private String device_name;
 
@@ -44,5 +46,13 @@ public abstract class It_device implements Serializable{
 
     public void setDevice_name(String device_name) {
         this.device_name = device_name;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
