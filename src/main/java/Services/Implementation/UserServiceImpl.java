@@ -24,13 +24,25 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public void addUpdateUser(User u) {
+    public boolean addUpdateUser(User u) {
+        try{
+            em.merge(u);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
 
     }
 
     @Override
     public void removeUser(User u) {
-
+        try{
+            logger.info("Trying to remove "+u.getUser_id());
+            User _u = em.merge(u);
+            em.remove(_u);
+        }catch(Exception e){
+            logger.warning(e.getMessage());
+        }
     }
 
     @Override

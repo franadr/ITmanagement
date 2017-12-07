@@ -14,7 +14,7 @@
 
         <ui:define name="content">
             <b:panel title="Users" collapsible="false">
-                <h:form>
+                <h:form id="adduserform">
                     <b:dataTable value="#{usersController.userList}"
                                  var="user">
                         <b:dataTableColumn value="#{user.username}" label="Username"/>
@@ -24,27 +24,42 @@
                     </b:dataTable>
                 </h:form>
             </b:panel>
-            <b:panel title="Add User" collapsed="true" collapsible="true" span="6">
-                <b:form horizontal="true">
-                    <b:inputText placeholder="Username" required="true" label="Username" colMd="9" labelColMd="3" value="#{usersController.user_add.username}">
-                        <f:facet name="prepend">
-                            <b:icon name="user" />
-                        </f:facet>
-                    </b:inputText>
+            <b:row>
+                <b:panel title="Add User" collapsed="true" collapsible="true" span="6">
+                    <b:form horizontal="true">
+                        <b:inputText placeholder="Username" required="true" label="Username" colMd="9" labelColMd="3" value="#{usersController.newUsername}">
+                            <f:facet name="prepend">
+                                <b:icon name="user" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:message for="@previous"/>
+                        <b:inputText placeholder="Password" label="Password" colMd="9" labelColMd="3" value="#{usersController.newPassword}" >
+                            <f:facet name="prepend">
+                                <b:iconAwesome name="key" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:message for="@previous"/>
+                        <b:selectOneMenu value="#{usersController.userGroup}" colMd="6" required="true" label="User group" labelColMd="3">
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
+                        </b:selectOneMenu>
+                        <b:message for="@previous"/>
 
-                    <b:inputText placeholder="Password" label="Password" colMd="9" labelColMd="3" value="#{usersController.user_add.password}" disabled="true">
-                        <f:facet name="prepend">
-                            <b:iconAwesome name="key" />
-                        </f:facet>
-                    </b:inputText>
-                    <b:selectOneMenu value="#{usersController.user_add.ug}" colMd="6" required="true" label="User group" labelColMd="3">
-                        <f:selectItem itemLabel="(Please select)" itemValue="" />
+                        <b:commandButton id="adduserCommand" update="@form" value="Add user" action="#{usersController.addUpdateUser()}"/>
+                        <b:alert severity="info" rendered="#{usersController.outMessage != null}">#{usersController.outMessage}</b:alert>
+                    </b:form>
+                </b:panel>
+                <b:panel title="Delete User" collapsible="true" span="6">
+                    <b:form>
+                        <b:selectOneMenu value="#{usersController.user_del}" label="User list">
+                            <f:selectItem itemLabel="(Please select user to delete)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:commandButton value="Delete the selected user" update="@form" look="primary" action="#{usersController.removeUser()}"/>
+                    </b:form>
+                </b:panel>
+            </b:row>
 
-                        <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
-
-                    </b:selectOneMenu>
-                </b:form>
-            </b:panel>
 
         </ui:define>
 

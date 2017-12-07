@@ -6,6 +6,7 @@ import Services.UserService;
 import models.NavLink;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
+import net.bootsfaces.utils.FacesMessages;
 
 
 import javax.annotation.PostConstruct;
@@ -14,17 +15,20 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsersController {
     Logger logger = Logger.getLogger("UserController");
 
@@ -33,7 +37,18 @@ public class UsersController {
     private User user_mod = new User();
     private User user_del = new User();
     private List<User_group> userGroups = new ArrayList<>();
+    private String outMessage;
 
+    @NotNull(message = "Please provide a user group")
+    private User_group userGroup;
+
+    @NotNull(message = "Please provide a username")
+    @Size(min = 4 , message = "Username should be at least 4 characters long")
+    private String newUsername;
+
+    @NotNull(message = "Please provide a password")
+    @Size(min = 6, message = "The password should contains at least 6 Characters")
+    private String newPassword;
 
 
     @EJB(name="UserServiceImpl") private UserService userService;
@@ -46,12 +61,20 @@ public class UsersController {
         return userList;
     }
 
-    public void removeUser(User u){
-        userService.removeUser(u);
+    public void removeUser(){
+        logger.info("Trying to del (controller) "+this.user_del.getUser_id());
+        userService.removeUser(this.user_del);
     }
 
-    public void addUpdateUser(User u){
-        userService.addUpdateUser(u);
+    public void addUpdateUser(){
+        this.user_add.setPassword(this.newPassword);
+        this.user_add.setUsername(this.newUsername);
+        this.user_add.setUg(this.userGroup);
+        if(userService.addUpdateUser(this.user_add)){
+            this.outMessage="User added";
+        }else{
+            this.outMessage="Internal error, user not added";
+        }
     }
 
     public List<User_group> getUserGroups() {
@@ -86,5 +109,37 @@ public class UsersController {
 
     public void setUser_del(User user_del) {
         this.user_del = user_del;
+    }
+
+    public String getNewUsername() {
+        return newUsername;
+    }
+
+    public void setNewUsername(String newUsername) {
+        this.newUsername = newUsername;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public User_group getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(User_group userGroup) {
+        this.userGroup = userGroup;
+    }
+
+    public String getOutMessage() {
+        return outMessage;
+    }
+
+    public void setOutMessage(String outMessage) {
+        this.outMessage = outMessage;
     }
 }
