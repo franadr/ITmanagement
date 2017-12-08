@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService{
             em.merge(u);
             return true;
         }catch (Exception e){
+            logger.warning(e.getMessage());
             return false;
         }
 

@@ -6,8 +6,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
 <f:metadata>
-    <f:viewAction action="#{loginController.loginCheck()}" />
+    <f:viewAction action="#{loginController.roleCheck(['admin'])}" />
 </f:metadata>
+
 <h:body>
 
     <ui:composition template="WEB-INF/template/layout.xhtml">
@@ -25,9 +26,9 @@
                 </h:form>
             </b:panel>
             <b:row>
-                <b:panel title="Add User" collapsed="true" collapsible="true" span="6">
+                <b:panel title="Add User" collapsed="true" collapsible="true" span="4">
                     <b:form horizontal="true" id="userAddForm">
-                        <b:inputText placeholder="Username" required="true" label="Username" colMd="9" labelColMd="3" value="#{usersController.newUsername}">
+                        <b:inputText placeholder="Username" label="Username" colMd="9" labelColMd="3" value="#{usersController.newUsername}">
                             <f:facet name="prepend">
                                 <b:icon name="user" />
                             </f:facet>
@@ -39,7 +40,7 @@
                             </f:facet>
                         </b:inputText>
                         <b:message for="@previous"/>
-                        <b:selectOneMenu value="#{usersController.userGroup}" colMd="6" required="true" label="User group" labelColMd="3">
+                        <b:selectOneMenu value="#{usersController.userGroup}" colMd="6" label="User group" labelColMd="3">
                             <f:selectItem itemLabel="(Please select)" itemValue="" />
                             <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
                         </b:selectOneMenu>
@@ -49,7 +50,7 @@
                             <b:message for="userAddForm"/>
                     </b:form>
                 </b:panel>
-                <b:panel title="Delete User" collapsible="true" span="6">
+                <b:panel title="Delete User" collapsible="true" span="4">
                     <b:form id="deluserForm">
                         <b:selectOneMenu value="#{usersController.user_del}" label="User list">
                             <f:selectItem itemLabel="(Please select user to delete)" itemValue="" />
@@ -57,6 +58,25 @@
                         </b:selectOneMenu>
                         <b:commandButton ajax="true" value="Delete the selected user" update="deluserForm userListTable" look="warning" action="#{usersController.removeUser()}"/>
                         <b:message for="deluserForm"/>
+                    </b:form>
+                </b:panel>
+                <b:panel title="Modify User" collapsible="true" span="4">
+                    <b:form id="moduserForm">
+                        <b:selectOneMenu ajax="true" value="#{usersController.user_mod}" label="User list" update="moduserForm">
+                            <f:selectItem itemLabel="(Please select user to Edit)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:inputText placeholder="Username" required="true" label="Username" colMd="5" labelColMd="3" value="#{usersController.user_mod.username}" rendered="#{usersController.user_mod.username != null}">
+                            <f:facet name="prepend">
+                                <b:icon name="user" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:selectOneMenu value="#{usersController.user_mod.ug}" colMd="6" label="Group" labelColMd="3" rendered="#{usersController.user_mod.username != null}">
+                            <f:selectItem itemLabel="Currently : #{usersController.user_mod.ug.user_group_name}" itemValue="" />
+                            <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
+                        </b:selectOneMenu>
+                        <b:commandButton ajax="true" value="Modify the selected user" update="moduserForm userListTable" look="success" action="#{usersController.modifyUser()}"/>
+                        <b:message for="moduserForm"/>
                     </b:form>
                 </b:panel>
             </b:row>

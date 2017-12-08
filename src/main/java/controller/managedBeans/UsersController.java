@@ -74,6 +74,13 @@ public class UsersController {
         }
     }
 
+    public void modifyUser(){
+        if(userService.addUpdateUser(this.user_mod))
+            FacesMessages.warning("moduserForm","","User "+this.user_mod.getUsername()+" updated");
+        else
+            FacesMessages.error("moduserForm","","User "+this.user_mod.getUsername()+" not updated : internal error");
+    }
+
     public void addUpdateUser(){
         this.user_add.setPassword(this.newPassword);
         this.user_add.setUsername(this.newUsername);
