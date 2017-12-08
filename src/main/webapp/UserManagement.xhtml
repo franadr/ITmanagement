@@ -14,7 +14,7 @@
 
         <ui:define name="content">
             <b:panel title="Users" collapsible="false">
-                <h:form id="adduserform">
+                <h:form id="userListTable">
                     <b:dataTable value="#{usersController.userList}"
                                  var="user">
                         <b:dataTableColumn value="#{user.username}" label="Username"/>
@@ -26,7 +26,7 @@
             </b:panel>
             <b:row>
                 <b:panel title="Add User" collapsed="true" collapsible="true" span="6">
-                    <b:form horizontal="true">
+                    <b:form horizontal="true" id="userAddForm">
                         <b:inputText placeholder="Username" required="true" label="Username" colMd="9" labelColMd="3" value="#{usersController.newUsername}">
                             <f:facet name="prepend">
                                 <b:icon name="user" />
@@ -45,17 +45,18 @@
                         </b:selectOneMenu>
                         <b:message for="@previous"/>
 
-                        <b:commandButton id="adduserCommand" update="@form" value="Add user" action="#{usersController.addUpdateUser()}"/>
-                        <b:alert severity="info" rendered="#{usersController.outMessage != null}">#{usersController.outMessage}</b:alert>
+                        <b:commandButton look="success" ajax="true"  id="adduserCommand" update="userListTable userAddForm deluserForm" value="Add user" action="#{usersController.addUpdateUser()}"/>
+                            <b:message for="userAddForm"/>
                     </b:form>
                 </b:panel>
                 <b:panel title="Delete User" collapsible="true" span="6">
-                    <b:form>
+                    <b:form id="deluserForm">
                         <b:selectOneMenu value="#{usersController.user_del}" label="User list">
                             <f:selectItem itemLabel="(Please select user to delete)" itemValue="" />
                             <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
                         </b:selectOneMenu>
-                        <b:commandButton value="Delete the selected user" update="@form" look="primary" action="#{usersController.removeUser()}"/>
+                        <b:commandButton ajax="true" value="Delete the selected user" update="deluserForm userListTable" look="warning" action="#{usersController.removeUser()}"/>
+                        <b:message for="deluserForm"/>
                     </b:form>
                 </b:panel>
             </b:row>

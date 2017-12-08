@@ -35,13 +35,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void removeUser(User u) {
+    public boolean removeUser(User u) {
         try{
             logger.info("Trying to remove "+u.getUser_id());
             User _u = em.merge(u);
             em.remove(_u);
+            return true;
         }catch(Exception e){
             logger.warning(e.getMessage());
+            return false;
         }
     }
 
@@ -69,5 +71,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getSpecificUser(User u) {
         return null;
+    }
+
+    @Override
+    public User getSpecificUser(String username) {
+
+        try{
+            Query query = em.createQuery("select u from User u where u.username = :uname").setParameter("uname",username);
+
+            return (User) query.getSingleResult();
+        }catch(Exception e){
+            return null;
+        }
+
     }
 }

@@ -8,9 +8,10 @@ import java.util.List;
 public interface UserService {
 
     boolean addUpdateUser(User u);
-    void removeUser(User u);
+    boolean removeUser(User u);
 
     List<User> getAllUsers();
     List<User_group> getUserGroups();
     User getSpecificUser(User u);
+    User getSpecificUser(String username);
 }

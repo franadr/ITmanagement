@@ -1,8 +1,9 @@
-package controller;
+package controller.managedBeans;
 
 import Services.Implementation.LoginService;
 import Services.It_deviceService;
 import Services.UserService;
+import controller.validators.annotations.UserExists;
 import models.NavLink;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
@@ -44,6 +45,7 @@ public class UsersController {
 
     @NotNull(message = "Please provide a username")
     @Size(min = 4 , message = "Username should be at least 4 characters long")
+    @UserExists(message = "Username already exists")
     private String newUsername;
 
     @NotNull(message = "Please provide a password")
@@ -62,8 +64,14 @@ public class UsersController {
     }
 
     public void removeUser(){
-        logger.info("Trying to del (controller) "+this.user_del.getUser_id());
-        userService.removeUser(this.user_del);
+
+
+        if(userService.removeUser(this.user_del)){
+            FacesMessages.warning("deluserForm","","User "+this.user_del.getUsername()+" Deleted");
+
+        }else{
+            FacesMessages.error("deluserForm","","User "+this.user_del.getUsername()+" not Deleted : internal error");
+        }
     }
 
     public void addUpdateUser(){
@@ -71,9 +79,11 @@ public class UsersController {
         this.user_add.setUsername(this.newUsername);
         this.user_add.setUg(this.userGroup);
         if(userService.addUpdateUser(this.user_add)){
-            this.outMessage="User added";
+            FacesMessages.info("userAddForm","","User "+this.user_add.getUsername()+" Saved");
+        this.newPassword=null;
+        this.newUsername=null;
         }else{
-            this.outMessage="Internal error, user not added";
+            FacesMessages.error("userAddForm","","User not Saved");
         }
     }
 
