@@ -3,15 +3,18 @@ package models.entites.jpa;
 
 import models.entites.jpa.ItDevices.It_device;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
+import java.util.logging.Logger;
 @Entity
+
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private static Logger logger = Logger.getLogger("User");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +61,7 @@ public class User implements Serializable {
     }
 
     public void setUsername(String userName) {
+        logger.info("Name property changed "+ userName);
         this.username = userName;
     }
 

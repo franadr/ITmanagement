@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean addUpdateUser(User u) {
         try{
+            logger.info("User nma of user : "+u.getUsername());
             em.merge(u);
             return true;
         }catch (Exception e){

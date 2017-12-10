@@ -50,7 +50,7 @@
                             <b:message for="userAddForm"/>
                     </b:form>
                 </b:panel>
-                <b:panel title="Delete User" collapsible="true" span="4">
+                <b:panel title="Delete User" collapsible="true" span="4" collapsed="true">
                     <b:form id="deluserForm">
                         <b:selectOneMenu value="#{usersController.user_del}" label="User list">
                             <f:selectItem itemLabel="(Please select user to delete)" itemValue="" />
@@ -60,23 +60,30 @@
                         <b:message for="deluserForm"/>
                     </b:form>
                 </b:panel>
-                <b:panel title="Modify User" collapsible="true" span="4">
-                    <b:form id="moduserForm">
-                        <b:selectOneMenu ajax="true" value="#{usersController.user_mod}" label="User list" update="moduserForm">
-                            <f:selectItem itemLabel="(Please select user to Edit)" itemValue="" />
-                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                        </b:selectOneMenu>
-                        <b:inputText placeholder="Username" required="true" label="Username" colMd="5" labelColMd="3" value="#{usersController.user_mod.username}" rendered="#{usersController.user_mod.username != null}">
-                            <f:facet name="prepend">
-                                <b:icon name="user" />
-                            </f:facet>
-                        </b:inputText>
-                        <b:selectOneMenu value="#{usersController.user_mod.ug}" colMd="6" label="Group" labelColMd="3" rendered="#{usersController.user_mod.username != null}">
-                            <f:selectItem itemLabel="Currently : #{usersController.user_mod.ug.user_group_name}" itemValue="" />
-                            <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
-                        </b:selectOneMenu>
-                        <b:commandButton ajax="true" value="Modify the selected user" update="moduserForm userListTable" look="success" action="#{usersController.modifyUser()}"/>
-                        <b:message for="moduserForm"/>
+                <b:panel title="Modify User " collapsible="true" span="4" collapsed="true">
+                    <b:form id="userModForm">
+                            <b:selectOneMenu value="#{usersController.user_mod}" label="User list" >
+                                <f:selectItem itemLabel="(Please select user to Edit)" itemValue="" />
+                                <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                                <f:ajax render="inputPanel"/>
+                            </b:selectOneMenu>
+                        <b:panel id="inputPanel">
+                            <b:inputText placeholder="Username" label="Username" colMd="6" labelColMd="6" value="#{usersController.user_mod.username}" >
+                                <f:facet name="prepend">
+                                    <b:icon name="user" />
+                                </f:facet>
+
+                            </b:inputText>
+                            <b:selectOneMenu value="#{usersController.user_mod.ug}" colMd="6" label="Group" labelColMd="6" >
+                                <f:selectItem itemLabel="Currently : #{usersController.user_mod.ug.description}" itemValue="" />
+                                <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
+
+                            </b:selectOneMenu>
+                            <b:message for="userModForm"/>
+                        </b:panel>
+
+
+                        <b:commandButton for="@form" ajax="true" value="Modify the selected user" update="userListTable" look="success" action="#{usersController.modifyUser()}"/>
                     </b:form>
                 </b:panel>
             </b:row>

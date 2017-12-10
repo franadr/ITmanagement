@@ -18,9 +18,10 @@
 <ui:composition template="WEB-INF/template/layout.xhtml">
     
         <ui:define name="content">
+            <h2>List of devices </h2>
 
             <c:if test="#{itdeviceController.listNotEmpty}">
-                <b:panel title="Laptops" collapsible="false">
+                <b:panel title="Laptops" collapsible="true" collapsed="true">
                     <h:form>
                         <b:dataTable value="#{itdeviceController.laptopList}"
                                      var="laptop">
@@ -37,28 +38,28 @@
                     </h:form>
                 </b:panel>
             </c:if>
-                <b:panel title="Printers" collapsible="false">
+                <b:panel title="Printers" collapsible="true" collapsed="true">
                     <h:outputText value="Panel Content" />
                 </b:panel>
-                <b:panel title="Desktops" collapsible="false">
+                <b:panel title="Desktops" collapsible="true" collapsed="true">
                     <h:outputText value="Panel Content" />
                 </b:panel>
 
 
 
 
-            <h:form>
+            <!--<h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Laptop Name " />
-                    <h:inputText value="#{ItdeviceController.l.device_name}" />
+                    <h:inputText value="#{itdeviceController.l.device_name}" />
                     <h:outputText value="Laptop screen size: " />
-                    <h:inputText value="#{ItdeviceController.l.screen_size}" />
+                    <h:inputText value="#{itdeviceController.l.screen_size}" />
                     <h:outputText value="Laptop RAM: " />
-                    <h:inputText value="#{ItdeviceController.l.RAM}" />
+                    <h:inputText value="#{itdeviceController.l.RAM}" />
                     <h:outputText value =" " /> <h:outputText value =" " />
-                    <h:commandButton value="Create/Update Laptop" action="#{ItdeviceController.saveDevice(loginController.user)}"/>
+                    <h:commandButton value="Create/Update Laptop" action="#{itdeviceController.saveDevice(loginController.user)}"/>
                 </h:panelGrid>
-            </h:form>
+            </h:form>-->
 
         </ui:define>
 

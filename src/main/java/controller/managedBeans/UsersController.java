@@ -15,9 +15,11 @@ import javax.ejb.EJB;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
@@ -29,16 +31,25 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class UsersController {
     Logger logger = Logger.getLogger("UserController");
 
     private List<User> userList = new ArrayList<>();
     private User user_add = new User();
-    private User user_mod = new User();
-    private User user_del = new User();
+
+    @NotNull(message = "Please select a user")
+    private User user_mod ;
+    @NotNull(message = "Please select a user")
+    private User user_del ;
     private List<User_group> userGroups = new ArrayList<>();
     private String outMessage;
+    private String modifiedUsername = "";
+    private User_group modifiedUserGroup = new User_group();
+
+    public UsersController() {
+        this.user_mod = new User();
+    }
 
     @NotNull(message = "Please provide a user group")
     private User_group userGroup;
@@ -64,8 +75,6 @@ public class UsersController {
     }
 
     public void removeUser(){
-
-
         if(userService.removeUser(this.user_del)){
             FacesMessages.warning("deluserForm","","User "+this.user_del.getUsername()+" Deleted");
 
@@ -75,10 +84,23 @@ public class UsersController {
     }
 
     public void modifyUser(){
-        if(userService.addUpdateUser(this.user_mod))
-            FacesMessages.warning("moduserForm","","User "+this.user_mod.getUsername()+" updated");
-        else
-            FacesMessages.error("moduserForm","","User "+this.user_mod.getUsername()+" not updated : internal error");
+        logger.info("modifying user : "+this.user_mod.getUsername());
+
+            if (userService.addUpdateUser(this.user_mod)) {
+                logger.info("modified");
+                FacesMessages.warning("userModForm", "", "User " + this.user_mod.getUsername() + " updated");
+            } else {
+                logger.info("not modified");
+                FacesMessages.error("userModForm", "", "User " + this.user_mod.getUsername() + " not updated : internal error");
+            }
+
+
+
+
+    }
+
+    public void onChange(AjaxBehaviorEvent e){
+        logger.info("User name has changed : "+this.user_mod.getUsername());
     }
 
     public void addUpdateUser(){
@@ -158,5 +180,21 @@ public class UsersController {
 
     public void setOutMessage(String outMessage) {
         this.outMessage = outMessage;
+    }
+
+    public String getModifiedUsername() {
+        return modifiedUsername;
+    }
+
+    public void setModifiedUsername(String modifiedUsername) {
+        this.modifiedUsername = modifiedUsername;
+    }
+
+    public User_group getModifiedUserGroup() {
+        return modifiedUserGroup;
+    }
+
+    public void setModifiedUserGroup(User_group modifiedUserGroup) {
+        this.modifiedUserGroup = modifiedUserGroup;
     }
 }
