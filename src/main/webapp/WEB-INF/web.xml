@@ -6,7 +6,7 @@
     </context-param>
     <context-param>
         <param-name>BootsFaces_THEME</param-name>
-        <param-value>patternfly</param-value>
+        <param-value>default</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -20,7 +20,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            10
         </session-timeout>
     </session-config>
     <welcome-file-list>

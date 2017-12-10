@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+<f:metadata>
+    <f:viewAction action="#{loginController.roleCheck(['admin','itsupport'])}" />
+</f:metadata>
+<h:body>
+
+<ui:composition template="WEB-INF/template/layout.xhtml">
+
+<ui:define name="content">
+    <b:row>
+        <b:panel title="Add device" collapsible="true" collapsed="true">
+            <b:form>
+                <b:formGroup>
+                    <b:selectOneMenu value="#{itdeviceController.itdeviceType}" label="User list" >
+                        <f:selectItem itemLabel="(Please select device type )" itemValue="" />
+                        <f:selectItem itemLabel="Laptop" itemValue="laptop" />
+                        <f:selectItem itemLabel="Desktop" itemValue="desktop" />
+                        <f:selectItem itemLabel="Printer" itemValue="printer" />
+                        <f:ajax render="addComputer"/>
+                    </b:selectOneMenu>
+                </b:formGroup>
+                <b:formGroup id="addComputer">
+                    <b:formGroup  rendered="#{itdeviceController.itdeviceType == 'laptop'}">
+                        <h:outputText value="Laptop Name " />
+                        <h:inputText value="#{itdeviceController.l.device_name}" />
+                        <h:outputText value="Laptop screen size: " />
+                        <h:inputText value="#{itdeviceController.l.screen_size}" />
+                        <h:outputText value="Laptop RAM: " />
+                        <h:inputText value="#{itdeviceController.l.RAM}" />
+                        <h:outputText value =" " /> <h:outputText value =" " />
+                        <h:commandButton value="Create/Update Laptop" />
+                    </b:formGroup>
+                </b:formGroup>
+
+                <b:formGroup id="addPrinter">
+
+                </b:formGroup>
+
+            </b:form>
+        </b:panel>
+    </b:row>
+
+</ui:define>
+</ui:composition>
+</h:body>
+</html>

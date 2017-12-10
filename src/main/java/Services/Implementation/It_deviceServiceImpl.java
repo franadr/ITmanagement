@@ -32,7 +32,10 @@ public class It_deviceServiceImpl implements It_deviceService {
 
     @Override
     public void removeDevice(It_device i) {
-        em.remove(i);
+        It_device _i = em.merge(i);
+        em.remove(_i);
+
+
     }
 
 

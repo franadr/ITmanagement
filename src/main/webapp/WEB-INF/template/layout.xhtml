@@ -21,7 +21,7 @@
                         <b:dropMenu value="Devices" iconAwesome="desktop" iconAlign="right"
                                     rendered="#{(loginController.user.ug.user_group_id eq 2) or (loginController.user.ug.user_group_id eq 1)}">
                             <b:navLink value="All devices"  href="/home.xhtml"/>
-                            <b:navLink value="Add/modify Devices" iconAwesome="pencil-square-o" href="#" rendered="#{loginController.user.ug.user_group_id eq 1}"/>
+                            <b:navLink value="Add/modify Devices" iconAwesome="pencil-square-o" href="/ItDeviceManagement.xhtml?faces-redirect=true" rendered="#{loginController.user.ug.user_group_id eq 1}" />
                         </b:dropMenu>
 
 
@@ -53,7 +53,7 @@
     </div>
     <div id="footer">
         <ui:insert name="footer">
-            This is the default footer
+
         </ui:insert>
     </div>
     </b:container>

@@ -7,37 +7,48 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:b="http://bootsfaces.net/ui">
-<f:event listener="#{loginController.clearNavbarLinks}" type="preRenderComponent" />
 <h:body >
     <ui:composition template="WEB-INF/template/layout.xhtml">
         <ui:define name="header">
-            <h2>Login to the application</h2>
         </ui:define>
         <ui:define name="content">
             <b:row>
                 <b:column mediumScreen="4">
-                    <b:jumbotron>
-                        <h2>Please login</h2>
-                        <b:form id="loginForm">
-                            <b:inputText id="usernameDiv" fieldId="j_username" name="j_username"
-                                         value="#{loginController.user.username}"
-                                         label="Username" />
-                            <b:message for="@previous" />
-                            <b:inputSecret id="passwordDiv" fieldId="j_password" name="j_password"
-                                           value="#{loginController.user.password}"
-                                           label="Password"  />
-                            <b:message for="passwordDiv" />
-                            <b:commandButton look="primary" update="@form" value="Login" action="#{loginController.validateUser(user)}"/>
-                            <h:messages />
-                        </b:form>
-                    </b:jumbotron>
+                       <!-- <b:panel>
+                            <b:form id="loginForm">
+                                <b:inputText id="usernameDiv" fieldId="j_username" name="j_username"
+                                             value="#{loginController.user.username}"
+                                             label="Username" />
+                                <b:message for="@previous" />
+                                <b:inputSecret id="passwordDiv" fieldId="j_password" name="j_password"
+                                               value="#{loginController.user.password}"
+                                               label="Password"  />
+                                <b:message for="passwordDiv" />
+                                <b:commandButton look="primary" update="@form" value="Login" action="#{loginController.validateUser(user)}"/>
+                                <h:messages />
+                            </b:form>
+                        </b:panel>
+                    -->
+
+
+                    <b:form styleClass="form-signin" prependId="false">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <b:inputText id="email" placeholder="Username" value="#{loginController.user.username}" >
+                            <f:facet name="prepend">
+                                <b:icon name="user" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:inputText id="password" placeholder="Password" type="password" value="#{loginController.user.password}">
+                            <f:facet name="prepend">
+                                <b:iconAwesome name="key" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:commandButton look="primary btn-block" value="Sign In" icon="log-in" size="lg" action="#{loginController.validateUser(user)}"/>
+                    </b:form>
+
 
                 </b:column>
             </b:row>
-        </ui:define>
-
-        <ui:define name="footer">
-           <h2>This if the footer of login page</h2>
         </ui:define>
     </ui:composition>
 </h:body>

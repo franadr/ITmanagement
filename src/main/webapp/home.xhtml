@@ -10,7 +10,6 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:metadata>
     <f:viewAction action="#{loginController.roleCheck(['admin','itsupport','user'])}" />
-    <f:viewAction action="#{itdeviceController.getTheLaptopList(loginController.user)}" />
 </f:metadata>
 
 <h:body>
@@ -20,35 +19,41 @@
         <ui:define name="content">
             <h2>List of devices </h2>
 
-            <c:if test="#{itdeviceController.listNotEmpty}">
-                <b:panel title="Laptops" collapsible="true" collapsed="true">
-                    <h:form>
-                        <b:dataTable value="#{itdeviceController.laptopList}"
-                                     var="laptop">
-                            <b:dataTableColumn value="#{laptop.owner.username}" rendered="#{loginController.user.ug.user_group_id eq 1}" label="Owner"/>
-                            <b:dataTableColumn value="#{laptop.mac_address}" />
-                            <b:dataTableColumn value="#{laptop.device_name}" />
-                            <b:dataTableColumn value="#{laptop.screen_size}" />
-                            <b:dataTableColumn value="#{laptop.CPU_count}" />
-                            <b:dataTableColumn value="#{laptop.CPU_speed}" />
-                            <b:dataTableColumn value="#{laptop.disk_space}" />
-                            <b:dataTableColumn value="#{laptop.manufacturer}" />
-                            <b:dataTableColumn value="#{laptop.RAM}" />
-                        </b:dataTable>
-                    </h:form>
-                </b:panel>
-            </c:if>
-                <b:panel title="Printers" collapsible="true" collapsed="true">
-                    <h:outputText value="Panel Content" />
-                </b:panel>
-                <b:panel title="Desktops" collapsible="true" collapsed="true">
-                    <h:outputText value="Panel Content" />
-                </b:panel>
 
+                <b:row>
+                    <b:panel title="Laptops" collapsible="true" collapsed="true" id="laptops">
+                        <h:form id="laptopForm">
+                            <b:dataTable value="#{itdeviceController.laptopList}"
+                                         var="laptop" pdf="true" >
+                                <b:dataTableColumn value="#{laptop.owner.username}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Owner"/>
+                                <b:dataTableColumn value="#{laptop.mac_address}" />
+                                <b:dataTableColumn value="#{laptop.device_name}" />
+                                <b:dataTableColumn value="#{laptop.screen_size}" />
+                                <b:dataTableColumn value="#{laptop.CPU_count}" />
+                                <b:dataTableColumn value="#{laptop.CPU_speed}" />
+                                <b:dataTableColumn value="#{laptop.disk_space}" />
+                                <b:dataTableColumn value="#{laptop.manufacturer}" />
+                                <b:dataTableColumn value="#{laptop.RAM}" />
+                                <b:dataTableColumn>
+                                    <b:commandButton look="warning" value="Delete" ajax="true" update="laptopForm" action="#{itdeviceController.removedevice(laptop)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
+                                </b:dataTableColumn>
 
-
-
-            <!--<h:form>
+                            </b:dataTable>
+                            <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Laptop" />
+                        </h:form>
+                    </b:panel>
+                </b:row>
+                <b:row>
+                    <b:panel title="Printers" collapsible="true" collapsed="true">
+                        <h:outputText value="Panel Content" />
+                    </b:panel>
+                </b:row>
+                <b:row>
+                    <b:panel title="Desktops" collapsible="true" collapsed="true">
+                        <h:outputText value="Panel Content" />
+                    </b:panel>
+                </b:row>
+            <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Laptop Name " />
                     <h:inputText value="#{itdeviceController.l.device_name}" />
@@ -57,14 +62,13 @@
                     <h:outputText value="Laptop RAM: " />
                     <h:inputText value="#{itdeviceController.l.RAM}" />
                     <h:outputText value =" " /> <h:outputText value =" " />
-                    <h:commandButton value="Create/Update Laptop" action="#{itdeviceController.saveDevice(loginController.user)}"/>
+                    <h:commandButton value="Create/Update Laptop" />
                 </h:panelGrid>
-            </h:form>-->
+            </h:form>
 
         </ui:define>
 
         <ui:define name="footer">
-            <h2>This if the footer of home page</h2>
         </ui:define>
     </ui:composition>
 </h:body>
