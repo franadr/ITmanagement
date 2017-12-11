@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class UsersController {
     Logger logger = Logger.getLogger("UserController");
 

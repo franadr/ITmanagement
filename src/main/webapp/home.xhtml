@@ -22,9 +22,9 @@
 
                 <b:row>
                     <b:panel title="Laptops" collapsible="true" collapsed="true" id="laptops">
-                        <h:form id="laptopForm">
+                        <h:form id="laptopForm" >
                             <b:dataTable value="#{itdeviceController.laptopList}"
-                                         var="laptop" pdf="true" >
+                                         var="laptop" pdf="true" responsive="true"  style="width:100%" >
                                 <b:dataTableColumn value="#{laptop.owner.username}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Owner"/>
                                 <b:dataTableColumn value="#{laptop.type.type_name}"/>
                                 <b:dataTableColumn value="#{laptop.mac_address}" />
@@ -38,7 +38,6 @@
                                 <b:dataTableColumn>
                                     <b:commandButton look="warning" value="Delete" ajax="true" update="laptopForm" action="#{itdeviceController.removedevice(laptop)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
                                 </b:dataTableColumn>
-
                             </b:dataTable>
                             <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Laptop" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />
                         </h:form>

@@ -112,6 +112,7 @@ public class ItdeviceController implements Serializable {
     }
 
     public void setItdeviceType(String itdeviceType) {
+        log.info("device type set "+itdeviceType);
         this.itdeviceType = itdeviceType;
     }
 

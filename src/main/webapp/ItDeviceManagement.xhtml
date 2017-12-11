@@ -16,38 +16,45 @@
 
 <ui:define name="content">
     <b:row>
-
-        <b:form >
-            <b:panel title="Add Laptop" collapsible="true" collapsed="true" span="4">
-                <b:selectOneMenu value="#{itdeviceController.l.owner}" label="Owner" >
-                    <f:selectItem itemLabel="(Please select owner)" itemValue="" />
-                    <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                </b:selectOneMenu>
-                <b:selectOneMenu value="#{itdeviceController.l.type}" label="Laptop type" >
-                    <f:selectItem itemLabel="(Please select type)" itemValue="" />
-                    <f:selectItems value="#{itdeviceController.laptopTypes}" var="type" itemLabel="#{type.type_name}" itemValue="#{type}" />
-                </b:selectOneMenu>
-                <b:inputText label="Name" value="#{itdeviceController.l.device_name}" />
-                <b:slider2 min="7" max="19" value="#{itdeviceController.l.screen_size}" label="Size" mode="basic"/>
-                <b:inputText label="RAM" value="#{itdeviceController.l.RAM}"/>
-                <b:commandButton value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newLaptop)}" />
-            </b:panel>
-        </b:form>
-
         <b:form>
-            <b:panel title="Add Printer" collapsible="true" collapsed="true" span="4">
-                <b:selectOneMenu value="#{itdeviceController.newPrinter.owner}" label="Owner" >
-                    <f:selectItem itemLabel="(Please select owner)" itemValue="" />
-                    <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                </b:selectOneMenu>
-                <b:inputText  label="Name" value="#{itdeviceController.newPrinter.device_name}" />
-                <b:inputText label="MAC" value="#{itdeviceController.newPrinter.mac_address}" />
-                <b:inputText label="Location" value="#{itdeviceController.newPrinter.location}"/>
-                <b:switch label="Color ?" colMd="9" value="#{itdeviceController.newPrinter.color}" offText="no"
-                          onText="yes"/>
-                <b:commandButton value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newPrinter)}" ajax="true" />
-            </b:panel>
+            <b:selectOneMenu update="@form" value="#{itdeviceController.itdeviceType}" label="Device" >
+                <f:selectItem itemLabel="(Please select device)" itemValue="" />
+                <f:selectItem itemLabel="laptop" itemValue="laptop" />
+                <f:selectItem itemLabel="printer" itemValue="printer" />
+            </b:selectOneMenu>
+            <b:formGroup id="laptopform">
+                <b:panel title="Add Laptop" collapsible="true" collapsed="true" span="4" rendered="#{itdeviceController.itdeviceType eq 'laptop'}">
+                    <b:selectOneMenu value="#{itdeviceController.newLaptop.owner}" label="Owner" >
+                        <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                        <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                    </b:selectOneMenu>
+                    <b:selectOneMenu value="#{itdeviceController.newLaptop.type}" label="Laptop type" >
+                        <f:selectItem itemLabel="(Please select type)" itemValue="" />
+                        <f:selectItems value="#{itdeviceController.laptopTypes}" var="type" itemLabel="#{type.type_name}" itemValue="#{type}" />
+                    </b:selectOneMenu>
+                    <b:inputText label="Name" value="#{itdeviceController.newLaptop.device_name}" />
+                    <b:slider2 min="7" max="19" value="#{itdeviceController.newLaptop.screen_size}" label="Size" mode="basic"/>
+                    <b:inputText label="RAM" value="#{itdeviceController.newLaptop.RAM}"/>
+                    <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newLaptop)}" />
+                </b:panel>
+            </b:formGroup>
+
+            <b:formGroup>
+                <b:panel title="Add Printer" collapsible="true" collapsed="true" span="4" rendered="#{itdeviceController.itdeviceType eq 'printer'}">
+                    <b:selectOneMenu value="#{itdeviceController.newPrinter.owner}" label="Owner" >
+                        <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                        <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                    </b:selectOneMenu>
+                    <b:inputText  label="Name" value="#{itdeviceController.newPrinter.device_name}" />
+                    <b:inputText label="MAC" value="#{itdeviceController.newPrinter.mac_address}" />
+                    <b:inputText label="Location" value="#{itdeviceController.newPrinter.location}"/>
+                    <b:switch label="Color ?" colMd="9" value="#{itdeviceController.newPrinter.color}" offText="no"
+                              onText="yes"/>
+                    <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newPrinter)}" ajax="true" />
+                </b:panel>
+            </b:formGroup>
         </b:form>
+
 
     </b:row>
 </ui:define>

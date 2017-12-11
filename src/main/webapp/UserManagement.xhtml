@@ -60,32 +60,30 @@
                         <b:message for="deluserForm"/>
                     </b:form>
                 </b:panel>
-                <b:panel title="Modify User " collapsible="true" span="4" collapsed="true">
-                    <b:form id="userModForm">
-                            <b:selectOneMenu value="#{usersController.user_mod}" label="User list" >
-                                <f:selectItem itemLabel="(Please select user to Edit)" itemValue="" />
-                                <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                                <f:ajax render="inputPanel"/>
-                            </b:selectOneMenu>
-                        <b:panel id="inputPanel">
-                            <b:inputText placeholder="Username" label="Username" colMd="6" labelColMd="6" value="#{usersController.user_mod.username}" >
-                                <f:facet name="prepend">
-                                    <b:icon name="user" />
-                                </f:facet>
-
-                            </b:inputText>
-                            <b:selectOneMenu value="#{usersController.user_mod.ug}" colMd="6" label="Group" labelColMd="6" >
-                                <f:selectItem itemLabel="Currently : #{usersController.user_mod.ug.description}" itemValue="" />
-                                <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
-
-                            </b:selectOneMenu>
-                            <b:message for="userModForm"/>
-                        </b:panel>
-
-
-                        <b:commandButton for="@form" ajax="true" value="Modify the selected user" update="userListTable" look="success" action="#{usersController.modifyUser()}"/>
+                <b:panel title="Modify User "  collapsible="true" span="4" collapsed="true">
+                    <b:form >
+                        <b:selectOneMenu update="@next" value="#{usersController.user_mod}" label="User list" >
+                            <f:selectItem itemLabel="(Please select user to Edit)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:formGroup>
+                            <b:panel rendered="#{not empty usersController.user_mod.username}">
+                                <b:inputText placeholder="Username" label="Username" colMd="6" labelColMd="6" value="#{usersController.user_mod.username}" >
+                                    <f:facet name="prepend">
+                                        <b:icon name="user" />
+                                    </f:facet>
+                                </b:inputText>
+                                <b:selectOneMenu value="#{usersController.user_mod.ug}" colMd="6" label="Group" labelColMd="6" >
+                                    <f:selectItem itemLabel="Currently : #{usersController.user_mod.ug.description}" itemValue="" />
+                                    <f:selectItems value="#{usersController.userGroups}" var="group" itemLabel="#{group.description}" itemValue="#{group}" />
+                                </b:selectOneMenu>
+                                <b:message />
+                            </b:panel>
+                        </b:formGroup>
+                        <b:commandButton value="Modify the selected user" update="@form userListTable" look="success" action="#{usersController.modifyUser()}"/>
                     </b:form>
                 </b:panel>
+
             </b:row>
 
 
