@@ -1,6 +1,7 @@
 package Services.Implementation;
 
 import Services.UserService;
+import models.entites.jpa.ItDevices.It_device;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
 import models.entites.jpa.User_group_;
@@ -41,9 +42,20 @@ public class UserServiceImpl implements UserService{
         try{
             logger.info("Trying to remove "+u.getUser_id());
             User _u = em.merge(u);
+
+
+            //This is to implement the ON delete set NULL logic
+            em.createQuery("select dev from it_device dev where dev.owner.user_id = :ownerid")
+                    .setParameter("ownerid",_u.getUser_id())
+                    .getResultList()
+                    .forEach( i ->{
+                        ((It_device) i ).setOwner(null);
+                        em.merge(i);
+                    });
             em.remove(_u);
             return true;
         }catch(Exception e){
+            e.printStackTrace();
             logger.warning(e.getMessage());
             return false;
         }

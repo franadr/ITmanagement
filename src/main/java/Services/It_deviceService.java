@@ -15,4 +15,5 @@ public interface It_deviceService {
 
     <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u);
     <T extends It_device> List getItdevice(Class<T> entityClass);
+    List getLaptopType();
 }

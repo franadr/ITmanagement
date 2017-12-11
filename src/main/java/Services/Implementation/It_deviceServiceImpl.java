@@ -14,12 +14,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
 @Remote(It_deviceService.class)
 public class It_deviceServiceImpl implements It_deviceService {
+
+
+
     static Logger logger = Logger.getLogger("It_deviceServiceImpl");
     @PersistenceContext (unitName = "itPU")
     private EntityManager em;
@@ -27,7 +31,13 @@ public class It_deviceServiceImpl implements It_deviceService {
 
     @Override
     public void addUpdateDevice(It_device i) {
-        em.merge(i);
+
+        try{
+            em.merge(i);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -60,6 +70,16 @@ public class It_deviceServiceImpl implements It_deviceService {
             return query.getResultList();
 
         }catch (NoResultException e){
+            logger.warning(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List getLaptopType() {
+        try{
+            return em.createQuery("select t from Laptop_type t").getResultList();
+        }catch (Exception e){
             logger.warning(e.getLocalizedMessage());
             return null;
         }

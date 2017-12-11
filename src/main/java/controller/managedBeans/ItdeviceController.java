@@ -2,39 +2,45 @@ package controller.managedBeans;
 
 
 import Services.It_deviceService;
-import models.entites.jpa.ItDevices.Desktop;
-import models.entites.jpa.ItDevices.It_device;
-import models.entites.jpa.ItDevices.Laptop;
-import models.entites.jpa.ItDevices.Printer;
+import models.entites.jpa.ItDevices.*;
 import models.entites.jpa.User;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @ManagedBean
-@ViewScoped
-public class ItdeviceController {
+@SessionScoped
+public class ItdeviceController implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     static final Logger log = Logger.getLogger("ItDEviceController");
 
     @ManagedProperty(value = "#{loginController}")
+    private
     LoginController loginController;
+
+
 
     private User loggedUser ;
     private Laptop l = new Laptop();
+    private Laptop newLaptop = new Laptop();
+    private Printer newPrinter = new Printer();
     private List<Laptop> laptopList = new ArrayList<>();
     private List<Printer> printerList = new ArrayList<>();
     private List<Desktop> desktopList = new ArrayList<>();
     private boolean listNotEmpty = false;
     private String itdeviceType = "none";
+    private List<Laptop_type> laptopTypes = new ArrayList<>();
 
     @EJB(name="It_deviceServiceImpl") private It_deviceService is; //Inject EJB It_deviceService with implementation It_deviceServiceImpl
 
@@ -46,11 +52,9 @@ public class ItdeviceController {
 
 
 
-    public void saveDevice(User user){
-        log.info("Saving Laptop");
-            this.l.setOwner(user);
+    public void saveDevice(It_device itd){
         try{
-            is.addUpdateDevice(this.l);
+            is.addUpdateDevice(itd);
             FacesContext.getCurrentInstance().addMessage("",new FacesMessage("device added"));
         }catch(Exception e){
             e.printStackTrace();
@@ -79,39 +83,12 @@ public class ItdeviceController {
         this.l = l;
     }
 
-
-
     public List<Laptop> getLaptopList() {
-        this.laptopList = is.getItdeviceByUser(Laptop.class,loginController.getUser());
+        if(loginController.getUser().getUg().getUser_group_name().equals("user"))
+            this.laptopList = is.getItdeviceByUser(Laptop.class,loginController.getUser());
+        else
+            this.laptopList = is.getItdevice(Laptop.class);
         return laptopList;
-    }
-
-
-    public void getTheLaptopList(User u){
-        List<Laptop> lp = is.getItdeviceByUser(Laptop.class,u);
-        laptopList = lp;
-    }
-    public void getTheLaptopList(){
-        List<Laptop> lp = is.getItdevice(Laptop.class);
-        laptopList = lp;
-    }
-
-    public void getThePrinterList(User u){
-        List<Printer> lp = is.getItdeviceByUser(Printer.class,u);
-        printerList = lp;
-    }
-    public void getThePrinterList(){
-        List<Printer> lp = is.getItdevice(Printer.class);
-        printerList = lp;
-    }
-
-    public void getTheDesktopList(User u){
-        List<Desktop> lp = is.getItdeviceByUser(Desktop.class,u);
-        desktopList = lp;
-    }
-    public void getTheDesktopList(){
-        List<Desktop> lp = is.getItdevice(Desktop.class);
-        desktopList = lp;
     }
 
     public User getLoggedUser() {
@@ -136,5 +113,42 @@ public class ItdeviceController {
 
     public void setItdeviceType(String itdeviceType) {
         this.itdeviceType = itdeviceType;
+    }
+
+    public List<Printer> getPrinterList() {
+        if(loginController.getUser().getUg().getUser_group_name().equals("user"))
+            this.printerList = is.getItdeviceByUser(Printer.class,loginController.getUser());
+        else
+            this.printerList = is.getItdevice(Printer.class);
+        return printerList;
+    }
+
+    public List<Desktop> getDesktopList() {
+        if(loginController.getUser().getUg().getUser_group_name().equals("user"))
+            this.desktopList = is.getItdeviceByUser(Laptop.class,loginController.getUser());
+        else
+            this.desktopList = is.getItdevice(Desktop.class);
+        return desktopList;
+    }
+
+    public List<Laptop_type> getLaptopTypes() {
+        this.laptopTypes = is.getLaptopType();
+        return laptopTypes;
+    }
+
+    public Laptop getNewLaptop() {
+        return newLaptop;
+    }
+
+    public void setNewLaptop(Laptop newLaptop) {
+        this.newLaptop = newLaptop;
+    }
+
+    public Printer getNewPrinter() {
+        return newPrinter;
+    }
+
+    public void setNewPrinter(Printer newPrinter) {
+        this.newPrinter = newPrinter;
     }
 }
