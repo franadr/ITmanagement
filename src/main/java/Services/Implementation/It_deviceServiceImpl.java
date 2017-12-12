@@ -30,12 +30,14 @@ public class It_deviceServiceImpl implements It_deviceService {
 
 
     @Override
-    public void addUpdateDevice(It_device i) {
+    public boolean addUpdateDevice(It_device i) {
 
         try{
             em.merge(i);
+            return true;
         }catch(Exception e){
             e.printStackTrace();
+            return false;
         }
 
     }

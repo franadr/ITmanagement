@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface It_deviceService {
 
-    void addUpdateDevice(It_device i);
+    boolean addUpdateDevice(It_device i);
     void removeDevice(It_device i);
 
     <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u);

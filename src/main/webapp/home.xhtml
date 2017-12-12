@@ -54,7 +54,7 @@
                                 <b:dataTableColumn value="#{printer.mac_address}"/>
                                 <b:dataTableColumn value="#{printer.location}"/>
                                 <b:dataTableColumn value="#{printer.color}"/>
-                                <b:dataTableColumn>
+                                <b:dataTableColumn label="Option">
                                     <b:commandButton look="warning" value="Delete" ajax="true" update="printerForm" action="#{itdeviceController.removedevice(printer)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
                                 </b:dataTableColumn>
                             </b:dataTable>

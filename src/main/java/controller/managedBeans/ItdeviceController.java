@@ -4,6 +4,7 @@ package controller.managedBeans;
 import Services.It_deviceService;
 import models.entites.jpa.ItDevices.*;
 import models.entites.jpa.User;
+import net.bootsfaces.utils.FacesMessages;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -32,6 +33,7 @@ public class ItdeviceController implements Serializable {
 
 
     private User loggedUser ;
+    private Desktop newDesktop = new Desktop();
     private Laptop l = new Laptop();
     private Laptop newLaptop = new Laptop();
     private Printer newPrinter = new Printer();
@@ -55,10 +57,10 @@ public class ItdeviceController implements Serializable {
     public void saveDevice(It_device itd){
         try{
             is.addUpdateDevice(itd);
-            FacesContext.getCurrentInstance().addMessage("",new FacesMessage("device added"));
+            FacesMessages.info("mainform","","Device added");
         }catch(Exception e){
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("",new FacesMessage("device not added"));
+            FacesMessages.info("mainform","","Device not added : "+e.getLocalizedMessage());
         }
     }
 
@@ -151,5 +153,13 @@ public class ItdeviceController implements Serializable {
 
     public void setNewPrinter(Printer newPrinter) {
         this.newPrinter = newPrinter;
+    }
+
+    public Desktop getNewDesktop() {
+        return newDesktop;
+    }
+
+    public void setNewDesktop(Desktop newDesktop) {
+        this.newDesktop = newDesktop;
     }
 }
