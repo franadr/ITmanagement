@@ -20,6 +20,14 @@ public class User_group implements Serializable {
     @OneToMany(mappedBy="ug")
     private List<User> users;
 
+    public User_group() {
+    }
+
+    public User_group(Long user_group_id, String user_group_name, String description) {
+        this.user_group_id = user_group_id;
+        this.user_group_name = user_group_name;
+        this.description = description;
+    }
 
     public Long getUser_group_id() {
         return user_group_id;

@@ -1,10 +1,12 @@
 package models.entites.jpa;
 
+import models.entites.jpa.ItDevices.It_device;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
+@Entity(name = "ticket2")
 public class Ticket implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -12,7 +14,8 @@ public class Ticket implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticket_id;
     private String status;
-    private String category;
+    private String initialIssue;
+    private String supportMessage;
 
     @ManyToOne
     @JoinColumn(name="requester_id")
@@ -21,8 +24,10 @@ public class Ticket implements Serializable {
     @JoinColumn(name="supportStaff_id")
     private User supportStaff;
 
-    @OneToMany(mappedBy="ticket")
-    private List<Ticket_Message> ticketMessages;
+    @ManyToOne
+    @JoinColumn(name="device_id")
+    private It_device it_device;
+
 
     public String getStatus() {
         return status;
@@ -32,27 +37,51 @@ public class Ticket implements Serializable {
         this.status = status;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public List<Ticket_Message> getTicketMessages() {
-        return ticketMessages;
-    }
-
-    public void setTicketMessages(List<Ticket_Message> ticketMessages) {
-        this.ticketMessages = ticketMessages;
-    }
-
     public Long getTicket_id() {
         return ticket_id;
     }
 
     public void setTicket_id(Long ticket_id) {
         this.ticket_id = ticket_id;
+    }
+
+    public String getInitialIssue() {
+        return initialIssue;
+    }
+
+    public void setInitialIssue(String initialIssue) {
+        this.initialIssue = initialIssue;
+    }
+
+    public String getSupportMessage() {
+        return supportMessage;
+    }
+
+    public void setSupportMessage(String supportMessage) {
+        this.supportMessage = supportMessage;
+    }
+
+    public User getRequester() {
+        return requester;
+    }
+
+    public void setRequester(User requester) {
+        this.requester = requester;
+    }
+
+    public User getSupportStaff() {
+        return supportStaff;
+    }
+
+    public void setSupportStaff(User supportStaff) {
+        this.supportStaff = supportStaff;
+    }
+
+    public It_device getIt_device() {
+        return it_device;
+    }
+
+    public void setIt_device(It_device it_device) {
+        this.it_device = it_device;
     }
 }

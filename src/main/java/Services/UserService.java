@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
+    boolean addUserGroup(User_group ug);
     boolean addUpdateUser(User u);
     boolean removeUser(User u);
 
@@ -14,4 +15,5 @@ public interface UserService {
     List<User_group> getUserGroups();
     User getSpecificUser(User u);
     User getSpecificUser(String username);
+
 }

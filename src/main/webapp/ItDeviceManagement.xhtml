@@ -28,23 +28,52 @@
 
 
             <b:formGroup id="laptopform">
-                <b:panel title="Add Laptop" collapsible="true" collapsed="true" span="4" rendered="#{itdeviceController.itdeviceType eq 'laptop'}">
-                    <b:selectOneMenu value="#{itdeviceController.newLaptop.owner}" label="Owner" >
-                        <f:selectItem itemLabel="(Please select owner)" itemValue="" />
-                        <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                    </b:selectOneMenu>
-                    <b:selectOneMenu value="#{itdeviceController.newLaptop.type}" label="Laptop type" >
-                        <f:selectItem itemLabel="(Please select type)" itemValue="" />
-                        <f:selectItems value="#{itdeviceController.laptopTypes}" var="type" itemLabel="#{type.type_name}" itemValue="#{type}" />
-                    </b:selectOneMenu>
-                    <b:inputText label="Device name" value="#{itdeviceController.newLaptop.device_name}" />
-                    <b:inputText label="Manufacturer" value="#{itdeviceController.newLaptop.manufacturer}" />
-                    <b:slider2 min="7" max="19" value="#{itdeviceController.newLaptop.screen_size}" label="Size (inch)" mode="basic"/>
-                    <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.newLaptop.RAM}"/>
-                    <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.newLaptop.CPU_count}" />
-                    <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.newLaptop.CPU_speed}"/>
-                    <b:inputText type="number" value="#{itdeviceController.newLaptop.disk_space}" label="Disk space (GB)"/>
-                    <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newLaptop)}" />
+                <b:panel rendered="#{itdeviceController.itdeviceType eq 'laptop'}">
+                    <b:panel span="6" title="Add Laptop" collapsible="true" collapsed="true" >
+                        <b:selectOneMenu value="#{itdeviceController.newLaptop.owner}" label="Owner" >
+                            <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:selectOneMenu value="#{itdeviceController.newLaptop.type}" label="Laptop type" >
+                            <f:selectItem itemLabel="(Please select type)" itemValue="" />
+                            <f:selectItems value="#{itdeviceController.laptopTypes}" var="type" itemLabel="#{type.type_name}" itemValue="#{type}" />
+                        </b:selectOneMenu>
+                        <b:inputText label="Device name" value="#{itdeviceController.newLaptop.device_name}" />
+                        <b:inputText label="Manufacturer" value="#{itdeviceController.newLaptop.manufacturer}" />
+                        <b:slider2 min="7" max="19" value="#{itdeviceController.newLaptop.screen_size}" label="Size (inch)" mode="basic"/>
+                        <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.newLaptop.RAM}"/>
+                        <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.newLaptop.CPU_count}" />
+                        <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.newLaptop.CPU_speed}"/>
+                        <b:inputText type="number" value="#{itdeviceController.newLaptop.disk_space}" label="Disk space (GB)"/>
+                        <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newLaptop)}" />
+                    </b:panel>
+                    <b:panel span="6" title="Modify Laptop" collapsible="true" collapsed="true" >
+                        <b:selectOneMenu update="@next" value="#{itdeviceController.modLaptop}" label="Laptop to edit" >
+                            <f:selectItem itemLabel="(Please select laptop)" itemValue="" />
+                            <f:selectItems value="#{itdeviceController.laptopList}" var="laptop" itemLabel="#{laptop.device_name}" itemValue="#{laptop}" />
+                        </b:selectOneMenu>
+
+                        <b:formGroup>
+                            <b:panel rendered="#{not empty itdeviceController.modLaptop.device_name}">
+                                <b:selectOneMenu value="#{itdeviceController.modLaptop.owner}" label="Owner" >
+                                    <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                                    <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                                </b:selectOneMenu>
+                                <b:selectOneMenu value="#{itdeviceController.modLaptop.type}" label="Laptop type" >
+                                    <f:selectItem itemLabel="(Please select type)" itemValue="" />
+                                    <f:selectItems value="#{itdeviceController.laptopTypes}" var="type" itemLabel="#{type.type_name}" itemValue="#{type}" />
+                                </b:selectOneMenu>
+                                <b:inputText label="Laptop name" value="#{itdeviceController.modLaptop.device_name}" />
+                                <b:inputText label="Manufacturer" value="#{itdeviceController.modLaptop.manufacturer}" />
+                                <b:slider2 min="7" max="19" value="#{itdeviceController.modLaptop.screen_size}" label="Size (inch)" mode="basic"/>
+                                <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.modLaptop.RAM}"/>
+                                <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.modLaptop.CPU_count}" />
+                                <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.modLaptop.CPU_speed}"/>
+                                <b:inputText type="number" value="#{itdeviceController.modLaptop.disk_space}" label="Disk space (GB)"/>
+                                <b:commandButton update="@form" value="Update device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.modLaptop)}" />
+                            </b:panel>
+                        </b:formGroup>
+                    </b:panel>
                 </b:panel>
             </b:formGroup>
 

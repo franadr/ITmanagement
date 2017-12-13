@@ -1,10 +1,12 @@
 package models.entites.jpa.ItDevices;
 
+import models.entites.jpa.Ticket;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name="it_device")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -18,6 +20,9 @@ public abstract class It_device implements Serializable{
     @ManyToOne
     @JoinColumn(name = "user_id")
     User owner;
+
+    @OneToMany(mappedBy="it_device")
+    List<Ticket> issues;
 
 
 
@@ -55,4 +60,11 @@ public abstract class It_device implements Serializable{
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
+    public It_device(User owner, String mac_address, String device_name) {
+        this.owner = owner;
+        this.mac_address = mac_address;
+        this.device_name = device_name;
+    }
+    public It_device(){}
 }

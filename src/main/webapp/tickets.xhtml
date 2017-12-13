@@ -14,12 +14,48 @@
     <ui:composition template="WEB-INF/template/layout.xhtml">
         <ui:define name="content">
             <b:row>
-                <b:panel title="Request assistance">
-                    <b:form>
 
-                    </b:form>
+                    <b:panel title="Request assistance">
+                        <b:form>
+                            <b:selectOneMenu update="@next" value="#{itdeviceController.ticketDevice}" label="Device " >
+                                <f:selectItem itemLabel="(Please select device)" itemValue="" />
+                                <f:selectItems value="#{itdeviceController.deviceList}" var="device" itemLabel="#{device.device_name}" itemValue="#{device}" />
+                            </b:selectOneMenu>
+                            <b:formGroup>
+                                <b:panel title="Report a problem with #{itdeviceController.ticketDevice.device_name}" rendered="#{not empty itdeviceController.ticketDevice.device_name}">
+                                    <b:inputTextarea placeholder="Please describe your problem ... " value="#{itdeviceController.newTicket.initialIssue}"/>
+                                    <b:commandButton update="@form" value="Submit" action="#{itdeviceController.addTicket}"/>
+                                </b:panel>
+                                <b:panel title="All problems registered with #{itdeviceController.ticketDevice.device_name}" rendered="#{  not empty itdeviceController.ticketDevice.device_name
+                                                                                                                                and (loginController.user.ug.user_group_name eq 'admin'
+                                                                                                                                or loginController.user.ug.user_group_name eq 'itsupport')}">
+                                    <b:dataTable value="#{itdeviceController.ticketListByDevice}"
+                                                 var="ticket" pdf="true" >
+                                        <b:dataTableColumn value="#{ticket.status}" />
+                                        <b:dataTableColumn value="#{ticket.initialIssue}"/>
+                                        <b:dataTableColumn value="#{ticket.requester.username}" label="Reporter user"/>
+                                        <b:dataTableColumn value="#{ticket.supportMessage}"/>
+                                        <b:dataTableColumn value="#{ticket.supportStaff.username}"/>
+                                    </b:dataTable>
+                                </b:panel>
+                                <b:panel title="All tickets registered" rendered="#{(loginController.user.ug.user_group_name eq 'admin'
+                                                                                                                                or loginController.user.ug.user_group_name eq 'itsupport')}">
+                                    <b:dataTable value="#{itdeviceController.ticketList}"
+                                                 var="ticket" pdf="true" >
+                                        <b:dataTableColumn value="#{ticket.it_device.device_name}" />
+                                        <b:dataTableColumn value="#{ticket.status}" />
+                                        <b:dataTableColumn value="#{ticket.initialIssue}"/>
+                                        <b:dataTableColumn value="#{ticket.requester.username}" label="Reporter user"/>
+                                        <b:dataTableColumn value="#{ticket.supportMessage}"/>
+                                        <b:dataTableColumn value="#{ticket.supportStaff.username}"/>
+                                    </b:dataTable>
+                                </b:panel>
+                            </b:formGroup>
 
-                </b:panel>
+
+                        </b:form>
+
+                    </b:panel>
             </b:row>
         </ui:define>
     </ui:composition>

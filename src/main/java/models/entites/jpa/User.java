@@ -24,7 +24,7 @@ public class User implements Serializable {
 
     String password;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = {CascadeType.ALL})
     List<It_device> it_devices;
 
     @OneToMany(mappedBy="requester")
@@ -32,9 +32,6 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy="supportStaff")
     List<Ticket> handlingTickets;
-
-    @OneToMany(mappedBy = "message_origin")
-    List<Ticket_Message> ticket_Ticket_messages;
 
     @ManyToOne
     @JoinColumn(name = "user_group_id")
@@ -71,5 +68,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public User() {
+    }
+
+    public User(String username, String password, User_group ug) {
+        this.username = username;
+        this.password = password;
+        this.ug = ug;
     }
 }

@@ -2,10 +2,8 @@ package Services.Implementation;
 
 
 import Services.It_deviceService;
-import models.entites.jpa.ItDevices.Desktop;
-import models.entites.jpa.ItDevices.It_device;
-import models.entites.jpa.ItDevices.Laptop;
-import models.entites.jpa.ItDevices.Printer;
+import models.entites.jpa.ItDevices.*;
+import models.entites.jpa.Ticket;
 import models.entites.jpa.User;
 
 import javax.ejb.Remote;
@@ -50,6 +48,22 @@ public class It_deviceServiceImpl implements It_deviceService {
 
     }
 
+    @Override
+    public void addLaptopType(Laptop_type lt) {
+        em.merge(lt);
+    }
+
+    @Override
+    public boolean addUpdateTicket(Ticket t) {
+        try{
+            em.merge(t);
+            return true;
+        }catch(Exception e){
+            logger.warning(e.getLocalizedMessage());
+            return false;
+        }
+    }
+
 
     @Override
     public <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u){
@@ -85,6 +99,30 @@ public class It_deviceServiceImpl implements It_deviceService {
             logger.warning(e.getLocalizedMessage());
             return null;
         }
+    }
+
+    @Override
+    public List getTickets(It_device i) {
+        try{
+            return em.createQuery("select t from ticket2 t where t.it_device = :itdevice")
+                    .setParameter("itdevice",i)
+                    .getResultList();
+        }catch (Exception e){
+            logger.warning(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List getTickets() {
+        try{
+            return em.createQuery("select t from ticket2 t ")
+                    .getResultList();
+        }catch (Exception e){
+            logger.warning(e.getLocalizedMessage());
+            return null;
+        }
+
     }
 
 

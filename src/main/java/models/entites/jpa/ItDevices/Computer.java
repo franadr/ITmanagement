@@ -1,5 +1,7 @@
 package models.entites.jpa.ItDevices;
 
+import models.entites.jpa.User;
+
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -13,7 +15,16 @@ public abstract class Computer extends It_device {
     private int disk_space;
     private String manufacturer;
 
-    public Computer(){
+    public Computer(User owner, String mac_address, String device_name, double CPU_speed, int CPU_count, int RAM, int disk_space, String manufacturer) {
+        super(owner, mac_address, device_name);
+        this.CPU_speed = CPU_speed;
+        this.CPU_count = CPU_count;
+        this.RAM = RAM;
+        this.disk_space = disk_space;
+        this.manufacturer = manufacturer;
+    }
+
+    public Computer() {
         super();
     }
 

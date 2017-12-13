@@ -3,16 +3,14 @@ package controller.managedBeans;
 
 import Services.It_deviceService;
 import models.entites.jpa.ItDevices.*;
+import models.entites.jpa.Ticket;
 import models.entites.jpa.User;
 import net.bootsfaces.utils.FacesMessages;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,6 @@ public class ItdeviceController implements Serializable {
     private
     LoginController loginController;
 
-    private Laptop l = new Laptop();
-
     private User loggedUser ;
 
     private Desktop newDesktop = new Desktop();
@@ -48,6 +44,13 @@ public class ItdeviceController implements Serializable {
     private boolean listNotEmpty = false;
     private String itdeviceType = "none";
     private List<Laptop_type> laptopTypes = new ArrayList<>();
+    private List<It_device> deviceList = new ArrayList<>();
+    private List<Ticket> ticketListByDevice = new ArrayList<>();
+    private List<Ticket> ticketList = new ArrayList<>();
+
+    private Ticket newTicket = new Ticket();
+
+    private It_device ticketDevice;
 
     @EJB(name="It_deviceServiceImpl") private It_deviceService is; //Inject EJB It_deviceService with implementation It_deviceServiceImpl
 
@@ -89,15 +92,6 @@ public class ItdeviceController implements Serializable {
         }
     }
 
-
-    public Laptop getL() {
-        return l;
-    }
-
-    public void setL(Laptop l) {
-        this.l = l;
-    }
-
     public List<Laptop> getLaptopList() {
         if(loginController.getUser().getUg().getUser_group_name().equals("user"))
             this.laptopList = is.getItdeviceByUser(Laptop.class,loginController.getUser());
@@ -106,13 +100,14 @@ public class ItdeviceController implements Serializable {
         return laptopList;
     }
 
-    public User getLoggedUser() {
-        return loggedUser;
+    public void addTicket(){
+        this.newTicket.setRequester(loginController.getUser());
+        this.newTicket.setIt_device(ticketDevice);
+        is.addUpdateTicket(newTicket);
+
     }
 
-    public void setLoggedUser(User loggedUser) {
-        this.loggedUser = loggedUser;
-    }
+
 
     public LoginController getLoginController() {
         return loginController;
@@ -198,5 +193,53 @@ public class ItdeviceController implements Serializable {
 
     public void setModLaptop(Laptop modLaptop) {
         this.modLaptop = modLaptop;
+    }
+
+    public List<It_device> getDeviceList() {
+        if(loginController.getUser().getUg().getUser_group_name().equals("user"))
+            this.deviceList = is.getItdeviceByUser(It_device.class,loginController.getUser());
+        else
+            this.deviceList = is.getItdevice(It_device.class);
+        return deviceList;
+    }
+
+    public void setDeviceList(List<It_device> deviceList) {
+        this.deviceList = deviceList;
+    }
+
+    public It_device getTicketDevice() {
+        return ticketDevice;
+    }
+
+    public void setTicketDevice(It_device ticketDevice) {
+        this.ticketDevice = ticketDevice;
+    }
+
+    public Ticket getNewTicket() {
+        return newTicket;
+    }
+
+    public void setNewTicket(Ticket newTicket) {
+        this.newTicket = newTicket;
+    }
+
+    public List<Ticket> getTicketListByDevice() {
+        return is.getTickets(this.ticketDevice);
+    }
+
+    public void setTicketListByDevice(List<Ticket> ticketListByDevice) {
+        this.ticketListByDevice = ticketListByDevice;
+    }
+
+    public List<Ticket> ticketListByDevice(){
+        return is.getTickets(this.ticketDevice);
+    }
+
+    public List<Ticket> getTicketList() {
+        return is.getTickets();
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
     }
 }

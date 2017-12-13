@@ -6,6 +6,7 @@ import Services.UserService;
 import controller.validators.annotations.UserExists;
 import models.NavLink;
 import models.entites.jpa.User;
+import models.entites.jpa.User_;
 import models.entites.jpa.User_group;
 import net.bootsfaces.utils.FacesMessages;
 
@@ -120,6 +121,13 @@ public class UsersController {
         this.userGroups = userService.getUserGroups();
         logger.info("Usergroups size : "+this.userGroups.size());
         return userGroups;
+    }
+
+    public void addUserGroup(User_group ug){
+        if(userService.addUserGroup(ug))
+            logger.info("User group added : "+ug.getUser_group_name());
+        else
+            logger.info("User group not added");
     }
 
     public void setUserGroups(List<User_group> userGroups) {

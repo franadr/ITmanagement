@@ -25,6 +25,17 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
+    public boolean addUserGroup(User_group ug) {
+        try{
+            em.merge(ug);
+            return true;
+        }catch (Exception e){
+            logger.warning(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
     public boolean addUpdateUser(User u) {
         try{
             logger.info("User nma of user : "+u.getUsername());
