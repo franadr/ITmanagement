@@ -5,12 +5,14 @@ import Services.Implementation.LoginService;
 import models.NavLink;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
+import net.bootsfaces.utils.FacesMessages;
 
 
 import javax.ejb.EJB;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -32,6 +34,10 @@ public class LoginController implements Serializable {
 
     @EJB private LoginService loginService;
 
+    @ManagedProperty(value = "#{applicationController}")
+    private
+    ApplicationController applicationController;
+
     public LoginController(){
         logger.info("loginController constructor");
         navlink.add(new NavLink("home","home"));
@@ -46,14 +52,16 @@ public class LoginController implements Serializable {
             this.user=_user;
             this.isAdmin = (this.user.getUg().getUser_group_name().equals("admin"));
             this.isItsupport = (this.user.getUg().getUser_group_name().equals("itsupport"));
-            return "/home.xhtml?faces-redirect=true";
+            if(!this.applicationController.alreadyConnected(this.user)) {
+                this.applicationController.addUser(this.user);
+                return "/home.xhtml?faces-redirect=true";
+            }else{
+                FacesMessages.info("loginForm","","Already connected");
+                return "/login.xhtml?faces-redirect=true";
+            }
         }else{
             logger.info("NOT Logged IN");
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Incorrect Username and Passowrd",
-                            "Please enter correct username and Password"));
+            FacesMessages.error("loginForm","","Wrong user/password couple");
             this.isloogedIn=false;
             return "/login.xhtml?faces-redirect=true";
         }
@@ -125,10 +133,17 @@ public class LoginController implements Serializable {
     }
 
     public String logout(){
+        this.applicationController.removeUser(this.user);
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext()
                 .getSession(true)).invalidate();
         return "/login.xhtml?faces-redirect=true";
     }
 
+    public ApplicationController getApplicationController() {
+        return applicationController;
+    }
 
+    public void setApplicationController(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+    }
 }

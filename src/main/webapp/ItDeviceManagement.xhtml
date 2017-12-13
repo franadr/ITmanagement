@@ -23,6 +23,10 @@
                 <f:selectItem itemLabel="printer" itemValue="printer" />
                 <f:selectItem itemLabel="desktop" itemValue="desktop" />
             </b:selectOneMenu>
+
+            <!-- Laptop creation/modification side -->
+
+
             <b:formGroup id="laptopform">
                 <b:panel title="Add Laptop" collapsible="true" collapsed="true" span="4" rendered="#{itdeviceController.itdeviceType eq 'laptop'}">
                     <b:selectOneMenu value="#{itdeviceController.newLaptop.owner}" label="Owner" >
@@ -43,38 +47,95 @@
                     <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newLaptop)}" />
                 </b:panel>
             </b:formGroup>
+
+            <!-- Desktop creation/modification side -->
+
+
             <b:formGroup id="desktopform">
-                <b:panel title="Add Desktop" collapsible="true" collapsed="false" span="4" rendered="#{itdeviceController.itdeviceType eq 'desktop'}">
-                    <b:selectOneMenu value="#{itdeviceController.newDesktop.owner}" label="Owner" >
-                        <f:selectItem itemLabel="(Please select owner)" itemValue="" />
-                        <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                    </b:selectOneMenu>
-                    <b:inputText label="Desktop name" value="#{itdeviceController.newDesktop.device_name}" />
-                    <b:inputText label="Manufacturer" value="#{itdeviceController.newDesktop.manufacturer}" />
-                    <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.newDesktop.RAM}"/>
-                    <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.newDesktop.CPU_count}" />
-                    <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.newDesktop.CPU_speed}"/>
-                    <b:inputText type="number" value="#{itdeviceController.newDesktop.disk_space}" label="Disk space (GB)"/>
-                    <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newDesktop)}" />
-                </b:panel>
-            </b:formGroup>
-            <b:formGroup>
-                <b:panel title="Add Printer" collapsible="true" collapsed="true" span="4" rendered="#{itdeviceController.itdeviceType eq 'printer'}">
-                    <b:selectOneMenu value="#{itdeviceController.newPrinter.owner}" label="Owner" >
-                        <f:selectItem itemLabel="(Please select owner)" itemValue="" />
-                        <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
-                    </b:selectOneMenu>
-                    <b:inputText  label="Name" value="#{itdeviceController.newPrinter.device_name}" />
-                    <b:inputText label="MAC" value="#{itdeviceController.newPrinter.mac_address}" />
-                    <b:inputText label="Location" value="#{itdeviceController.newPrinter.location}"/>
-                    <b:switch label="Color ?" colMd="9" value="#{itdeviceController.newPrinter.color}" offText="no"
-                              onText="yes"/>
-                    <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newPrinter)}" ajax="true" />
-                    <b:message for="mainform"/>
+                <b:panel span="12" rendered="#{itdeviceController.itdeviceType eq 'desktop'}">
+                    <b:panel span="6" title="Add Desktop" collapsible="true" collapsed="true" >
+                        <b:selectOneMenu value="#{itdeviceController.newDesktop.owner}" label="Owner" >
+                            <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:inputText label="Desktop name" value="#{itdeviceController.newDesktop.device_name}" />
+                        <b:inputText label="Manufacturer" value="#{itdeviceController.newDesktop.manufacturer}" />
+                        <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.newDesktop.RAM}"/>
+                        <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.newDesktop.CPU_count}" />
+                        <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.newDesktop.CPU_speed}"/>
+                        <b:inputText type="number" value="#{itdeviceController.newDesktop.disk_space}" label="Disk space (GB)"/>
+                        <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newDesktop)}" />
+                    </b:panel>
+                    <b:panel span="6" title="Modify Desktop" collapsible="true" collapsed="true" >
+                        <b:selectOneMenu update="@next" value="#{itdeviceController.modDesktop}" label="Desktop to edit" >
+                            <f:selectItem itemLabel="(Please select desktop)" itemValue="" />
+                            <f:selectItems value="#{itdeviceController.desktopList}" var="desktop" itemLabel="#{desktop.device_name}" itemValue="#{desktop}" />
+                        </b:selectOneMenu>
+
+                    <b:formGroup>
+                        <b:panel rendered="#{not empty itdeviceController.modDesktop.device_name}">
+                            <b:selectOneMenu value="#{itdeviceController.modDesktop.owner}" label="Owner" >
+                                <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                                <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                            </b:selectOneMenu>
+                            <b:inputText label="Desktop name" value="#{itdeviceController.modDesktop.device_name}" />
+                            <b:inputText label="Manufacturer" value="#{itdeviceController.modDesktop.manufacturer}" />
+                            <b:slider2 mode="basic" label="RAM (GB)" min="2" max="32" step="2" value="#{itdeviceController.modDesktop.RAM}"/>
+                            <b:slider2 label="CPU cores" mode="basic" min="1" max="4" value="#{itdeviceController.modDesktop.CPU_count}" />
+                            <b:slider2 label="core frequency (MHZ)" mode="basic" min="1000" max="4000" step="100" value="#{itdeviceController.modDesktop.CPU_speed}"/>
+                            <b:inputText type="number" value="#{itdeviceController.modDesktop.disk_space}" label="Disk space (GB)"/>
+                            <b:commandButton update="@form" value="Update device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.modDesktop)}" />
+                        </b:panel>
+                    </b:formGroup>
+                    </b:panel>
                 </b:panel>
             </b:formGroup>
 
+            <!-- Printer creation/modification side -->
+
+
+            <b:formGroup>
+                <b:panel span="12" rendered="#{itdeviceController.itdeviceType eq 'printer'}">
+                    <b:panel span = "6" collapsed="true" collapsible="true" title="Add Printer">
+                        <b:selectOneMenu value="#{itdeviceController.newPrinter.owner}" label="Owner" >
+                            <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                            <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                        </b:selectOneMenu>
+                        <b:inputText  label="Name" value="#{itdeviceController.newPrinter.device_name}" />
+                        <b:inputText label="MAC" value="#{itdeviceController.newPrinter.mac_address}" />
+                        <b:inputText label="Location" value="#{itdeviceController.newPrinter.location}"/>
+                        <b:switch label="Color ?" colMd="9" value="#{itdeviceController.newPrinter.color}" offText="no"
+                                  onText="yes"/>
+                        <b:commandButton update="@form" value="Create device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.newPrinter)}" />
+
+                    </b:panel>
+                    <b:panel  span = "6" collapsed="true" collapsible="true" title="Edit Printer">
+                        <b:selectOneMenu update="@next" value="#{itdeviceController.modPrinter}" label="Printer ot edit" >
+                            <f:selectItem itemLabel="(Please select printer)" itemValue="" />
+                            <f:selectItems value="#{itdeviceController.printerList}" var="printer" itemLabel="#{printer.device_name}" itemValue="#{printer}" />
+                        </b:selectOneMenu>
+                        <b:formGroup>
+                            <b:panel rendered="#{not empty itdeviceController.modPrinter.device_name}">
+                                <b:selectOneMenu value="#{itdeviceController.modPrinter.owner}" label="Owner" >
+                                    <f:selectItem itemLabel="(Please select owner)" itemValue="" />
+                                    <f:selectItems value="#{usersController.userList}" var="user" itemLabel="#{user.username}" itemValue="#{user}" />
+                                </b:selectOneMenu>
+                                <b:inputText  label="Name" value="#{itdeviceController.modPrinter.device_name}" />
+                                <b:inputText label="MAC" value="#{itdeviceController.modPrinter.mac_address}" />
+                                <b:inputText label="Location" value="#{itdeviceController.modPrinter.location}"/>
+                                <b:switch label="Color ?" colMd="9" value="#{itdeviceController.modPrinter.color}" offText="no"
+                                          onText="yes"/>
+                                <b:commandButton update="@form" value="Update device" look="success" action="#{itdeviceController.saveDevice(itdeviceController.modPrinter)}" />
+                            </b:panel>
+                        </b:formGroup>
+                    </b:panel>
+
+                </b:panel>
+
+            </b:formGroup>
+            <b:message for="mainform"/>
         </b:form>
+
 
 
 

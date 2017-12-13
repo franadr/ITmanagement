@@ -18,13 +18,11 @@
     
         <ui:define name="content">
             <h2>List of devices </h2>
-
-
                 <b:row>
                     <b:panel title="Laptops" collapsible="true" collapsed="true" id="laptops">
                         <h:form id="laptopForm" >
                             <b:dataTable value="#{itdeviceController.laptopList}"
-                                         var="laptop" pdf="true" responsive="true"  style="width:100%" >
+                                         var="laptop" pdf="true" csv="true" responsive="true"  style="width:100%" >
                                 <b:dataTableColumn value="#{laptop.owner.username}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Owner"/>
                                 <b:dataTableColumn value="#{laptop.type.type_name}"/>
                                 <b:dataTableColumn value="#{laptop.mac_address}" />
@@ -48,7 +46,6 @@
                         <h:form id="printerForm">
                             <b:dataTable value="#{itdeviceController.printerList}"
                                          var="printer" pdf="true" >
-
                                 <b:dataTableColumn value="#{printer.owner.username}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Owner"/>
                                 <b:dataTableColumn value="#{printer.device_name}"/>
                                 <b:dataTableColumn value="#{printer.mac_address}"/>
@@ -58,27 +55,31 @@
                                     <b:commandButton look="warning" value="Delete" ajax="true" update="printerForm" action="#{itdeviceController.removedevice(printer)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
                                 </b:dataTableColumn>
                             </b:dataTable>
+                            <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Printer" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />
                         </h:form>
                     </b:panel>
                 </b:row>
                 <b:row>
-                    <b:panel title="Desktops" collapsible="true" collapsed="true">
-                        <h:outputText value="Panel Content" />
+                    <b:panel title="Desktops" collapsible="true" collapsed="true" id="desktops">
+                        <h:form id="desktopForm" >
+                            <b:dataTable value="#{itdeviceController.desktopList}"
+                                         var="desktop" pdf="true" responsive="true"  style="width:100%" >
+                                <b:dataTableColumn value="#{desktop.owner.username}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Owner"/>
+                                <b:dataTableColumn value="#{desktop.mac_address}" />
+                                <b:dataTableColumn value="#{desktop.device_name}" />
+                                <b:dataTableColumn value="#{desktop.CPU_count}" />
+                                <b:dataTableColumn value="#{desktop.CPU_speed}" />
+                                <b:dataTableColumn value="#{desktop.disk_space}" />
+                                <b:dataTableColumn value="#{desktop.manufacturer}" />
+                                <b:dataTableColumn value="#{desktop.RAM}" />
+                                <b:dataTableColumn>
+                                    <b:commandButton look="warning" value="Delete" ajax="true" update="desktopForm" action="#{itdeviceController.removedevice(desktop)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                            <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Desktop" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />
+                        </h:form>
                     </b:panel>
                 </b:row>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="Laptop Name " />
-                    <h:inputText value="#{itdeviceController.l.device_name}" />
-                    <h:outputText value="Laptop screen size: " />
-                    <h:inputText value="#{itdeviceController.l.screen_size}" />
-                    <h:outputText value="Laptop RAM: " />
-                    <h:inputText value="#{itdeviceController.l.RAM}" />
-                    <h:outputText value =" " /> <h:outputText value =" " />
-                    <h:commandButton value="Create/Update Laptop" />
-                </h:panelGrid>
-            </h:form>
-
         </ui:define>
 
         <ui:define name="footer">

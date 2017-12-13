@@ -30,13 +30,18 @@ public class ItdeviceController implements Serializable {
     private
     LoginController loginController;
 
-
+    private Laptop l = new Laptop();
 
     private User loggedUser ;
+
     private Desktop newDesktop = new Desktop();
-    private Laptop l = new Laptop();
     private Laptop newLaptop = new Laptop();
     private Printer newPrinter = new Printer();
+
+    private Printer modPrinter = new Printer();
+    private Desktop modDesktop = new Desktop();
+    private Laptop modLaptop = new Laptop();
+
     private List<Laptop> laptopList = new ArrayList<>();
     private List<Printer> printerList = new ArrayList<>();
     private List<Desktop> desktopList = new ArrayList<>();
@@ -57,11 +62,19 @@ public class ItdeviceController implements Serializable {
     public void saveDevice(It_device itd){
         try{
             is.addUpdateDevice(itd);
-            FacesMessages.info("mainform","","Device added");
+            FacesMessages.info("mainform","","Device added/modified");
         }catch(Exception e){
             e.printStackTrace();
-            FacesMessages.info("mainform","","Device not added : "+e.getLocalizedMessage());
+            FacesMessages.info("mainform","","Device not added/modified : "+e.getLocalizedMessage());
         }
+
+        this.newPrinter = new Printer();
+        this.newDesktop = new Desktop();
+        this.newLaptop = new Laptop();
+
+        this.modDesktop = new Desktop();
+        this.modLaptop = new Laptop();
+        this.modPrinter = new Printer();
     }
 
     public void removedevice(It_device i){
@@ -128,7 +141,7 @@ public class ItdeviceController implements Serializable {
 
     public List<Desktop> getDesktopList() {
         if(loginController.getUser().getUg().getUser_group_name().equals("user"))
-            this.desktopList = is.getItdeviceByUser(Laptop.class,loginController.getUser());
+            this.desktopList = is.getItdeviceByUser(Desktop.class,loginController.getUser());
         else
             this.desktopList = is.getItdevice(Desktop.class);
         return desktopList;
@@ -161,5 +174,29 @@ public class ItdeviceController implements Serializable {
 
     public void setNewDesktop(Desktop newDesktop) {
         this.newDesktop = newDesktop;
+    }
+
+    public Printer getModPrinter() {
+        return modPrinter;
+    }
+
+    public void setModPrinter(Printer modPrinter) {
+        this.modPrinter = modPrinter;
+    }
+
+    public Desktop getModDesktop() {
+        return modDesktop;
+    }
+
+    public void setModDesktop(Desktop modDesktop) {
+        this.modDesktop = modDesktop;
+    }
+
+    public Laptop getModLaptop() {
+        return modLaptop;
+    }
+
+    public void setModLaptop(Laptop modLaptop) {
+        this.modLaptop = modLaptop;
     }
 }

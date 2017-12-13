@@ -31,7 +31,7 @@
                     -->
 
 
-                    <b:form styleClass="form-signin" prependId="false">
+                    <b:form styleClass="form-signin" prependId="false" id="loginForm">
                         <h2 class="form-signin-heading">Please sign in</h2>
                         <b:inputText id="email" placeholder="Username" value="#{loginController.user.username}" >
                             <f:facet name="prepend">
@@ -45,6 +45,7 @@
                         </b:inputText>
                         <b:commandButton look="primary btn-block" value="Sign In" icon="log-in" size="lg" action="#{loginController.validateUser(user)}"/>
                     </b:form>
+                    <b:message/>
 
 
                 </b:column>
