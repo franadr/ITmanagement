@@ -13,9 +13,7 @@ public class Laptop extends Computer {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "type_id")
     private Laptop_type type;
-    @Transient
-    @PersistenceContext(name = "ExamplePU")
-    EntityManager em;
+
 
     public int getScreen_size() {
         return screen_size;

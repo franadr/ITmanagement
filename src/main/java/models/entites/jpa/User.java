@@ -58,7 +58,6 @@ public class User implements Serializable {
     }
 
     public void setUsername(String userName) {
-        logger.info("Name property changed "+ userName);
         this.username = userName;
     }
 

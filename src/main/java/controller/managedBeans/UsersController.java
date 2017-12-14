@@ -1,4 +1,13 @@
 package controller.managedBeans;
+/**
+ * This file holds the Managed bean responsible for users related controls like
+ * Adding, editing and deleting users
+ *
+ * Method of this bean are accessed through rendered logic on the front end
+ *
+ * Adriano UNI.lu 2017 011109344A
+ */
+
 
 import Services.Implementation.LoginService;
 import Services.It_deviceService;

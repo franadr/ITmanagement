@@ -17,7 +17,7 @@ public abstract class It_device implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long device_id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     User owner;
 

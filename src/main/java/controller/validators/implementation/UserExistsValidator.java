@@ -1,9 +1,13 @@
 package controller.validators.implementation;
 
+/**
+ * Validator implementation for custom validator @UserExists
+ *
+ * To make sure that User (recognize by his Username) is not already existing in the DB
+ */
+
 import Services.UserService;
 import controller.validators.annotations.UserExists;
-import models.entites.jpa.User;
-
 import javax.ejb.EJB;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

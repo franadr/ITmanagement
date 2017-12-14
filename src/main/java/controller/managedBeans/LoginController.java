@@ -1,4 +1,13 @@
 package controller.managedBeans;
+/**
+ * This file holds the Managed bean responsible for login related controls
+ *
+ * it holds the information of the user connected
+ *
+ * Made SessionScoped so the user can continue navigate using his credential without having to login again
+ *
+ * Adriano UNI.lu 2017 011109344A
+ */
 
 
 import Services.Implementation.LoginService;
@@ -39,9 +48,6 @@ public class LoginController implements Serializable {
     ApplicationController applicationController;
 
     public LoginController(){
-        logger.info("loginController constructor");
-        navlink.add(new NavLink("home","home"));
-        navlink.add(new NavLink("logout","logout"));
     }
     public String validateUser(User user){
 
@@ -54,6 +60,7 @@ public class LoginController implements Serializable {
             this.isItsupport = (this.user.getUg().getUser_group_name().equals("itsupport"));
             if(!this.applicationController.alreadyConnected(this.user)) {
                 this.applicationController.addUser(this.user);
+                logger.info("Logged in : "+this.user.getUsername());
                 return "/home.xhtml?faces-redirect=true";
             }else{
                 FacesMessages.info("loginForm","","Already connected");
@@ -117,12 +124,12 @@ public class LoginController implements Serializable {
 
         if(this.isloogedIn){
             if(!(roles.contains(this.user.getUg().getUser_group_name()))){
-                logger.info("Access denied");
+                logger.info("Access denied for {"+this.user.getUsername()+"} not correct role");
                 FacesContext fc = FacesContext.getCurrentInstance();
                 fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "denied");
             }
         }else{
-            logger.info("Access denied");
+            logger.info("Access denied , not legged in or session expired");
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "login");
         }

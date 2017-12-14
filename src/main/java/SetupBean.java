@@ -1,0 +1,78 @@
+package controller;
+/**
+ * This file holds the EJB responsible for setup on startup i.e. db_init
+ *
+ *
+ * Adriano UNI.lu 2017 011109344A
+ */
+
+import models.entites.jpa.ItDevices.Desktop;
+import models.entites.jpa.ItDevices.Laptop;
+import models.entites.jpa.ItDevices.Laptop_type;
+import models.entites.jpa.ItDevices.Printer;
+import models.entites.jpa.User;
+import models.entites.jpa.User_group;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.logging.Logger;
+
+@Singleton
+@Startup
+public class SetupBean {
+    static Logger logger = Logger.getLogger("SetupBean");
+
+    @PersistenceContext(unitName = "itPU")
+    private EntityManager em;
+    //Init method that allow to populate DB with some values
+
+    @PostConstruct
+    public void init(){
+        logger.info("Inserting predefined users,user groups, device laptop types ...");
+
+        //User groups init
+        User_group ug1 = em.merge(new User_group(1L,"admin","administrators of the system"));
+        User_group ug2 = em.merge(new User_group(2L,"itsupport","it support staff"));
+        User_group ug3 = em.merge(new User_group(3L,"user","normal user"));
+
+
+        //Users init
+        User u1 = em.merge(new User("admin","adminadmin",ug1));
+        User u2 = em.merge(new User("itsupport","testme",ug2));
+        User u3 = em.merge(new User("user","useruser",ug3));
+
+        //Laptop types init
+        Laptop_type lt1 = em.merge(new Laptop_type("laptop","regular laptop"));
+        Laptop_type lt2 = em.merge(new Laptop_type("tablet","a big smartphone"));
+        Laptop_type lt3 = em.merge(new Laptop_type("smartphone","a small tablet"));
+
+
+
+        //Device init
+        Laptop l1 = em.merge(new Laptop(u3,"5E:FF:56:A2:AF:15","Macbookpro",2400.0,4,8,512,"Apple Co.",13,lt1));
+        Laptop l2 = em.merge(new Laptop(u3,"CA:FF:29:AF:89:73","Galaxy tab S3",2400.0,4,8,512,"Samsung Ltd.",9,lt2));
+        Desktop d1 = em.merge(new Desktop(u3,"5E:FF:56:A2:AF:15","Dell HP1",3400.0,4,16,1024,"Dell computers"));
+        Printer p1 = em.merge(new Printer(u3,"5E:FF:56:A2:AF:15","Samsung MF2070W",false,"first floor"));
+
+        logger.info("Database insertion finished");
+
+        Thread t = new Thread(() -> {
+            int i = 0;
+            while(true){
+                logger.info("Counter : "+i++);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+        t.start();
+    }
+
+
+}

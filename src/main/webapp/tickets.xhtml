@@ -15,9 +15,9 @@
         <ui:define name="content">
             <b:row>
 
-                    <b:panel title="Request assistance">
+                    <b:panel title="Tickets">
                         <b:form>
-                            <b:selectOneMenu update="@next" value="#{itdeviceController.ticketDevice}" label="Device " >
+                            <b:selectOneMenu update="@next" value="#{itdeviceController.ticketDevice}" label="Filter by device " >
                                 <f:selectItem itemLabel="(Please select device)" itemValue="" />
                                 <f:selectItems value="#{itdeviceController.deviceList}" var="device" itemLabel="#{device.device_name}" itemValue="#{device}" />
                             </b:selectOneMenu>

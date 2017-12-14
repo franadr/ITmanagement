@@ -64,6 +64,17 @@ public class It_deviceServiceImpl implements It_deviceService {
         }
     }
 
+    @Override
+    public Laptop_type getALaptopType(String typeName) {
+        try{
+            return (Laptop_type)em.createQuery("select t from Laptop_type t where t.type_name = :typeName").setParameter("typeName",typeName).getSingleResult();
+
+        }catch(Exception e){
+            logger.warning(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
 
     @Override
     public <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u){

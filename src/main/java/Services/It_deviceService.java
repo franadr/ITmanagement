@@ -12,10 +12,12 @@ public interface It_deviceService {
     void removeDevice(It_device i);
     void addLaptopType(Laptop_type lt);
     boolean addUpdateTicket(Ticket t);
+    Laptop_type getALaptopType(String typeName);
 
     <T extends It_device> List getItdeviceByUser(Class<T> entityClass, User u);
     <T extends It_device> List getItdevice(Class<T> entityClass);
     List getLaptopType();
     List getTickets(It_device i);
     List getTickets();
+
 }

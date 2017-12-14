@@ -24,8 +24,6 @@ public class LoginService {
                             "SELECT u from User u where u.username = :name and u.password = :password")
                     .setParameter("name", u.getUsername())
                     .setParameter("password", u.getPassword()).getSingleResult();
-
-            logger.info(user.getPassword() + " "+user.getUsername()+" "+user.getUg().getUser_group_name());
             return user;
         }catch(NoResultException e){
             logger.warning(e.getLocalizedMessage());

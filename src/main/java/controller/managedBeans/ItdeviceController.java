@@ -1,5 +1,11 @@
 package controller.managedBeans;
-
+/**
+ * This file holds the Managed bean responsible for it_device related controls
+ *
+ *
+ * Adriano UNI.lu 2017 011109344A
+ *
+ */
 
 import Services.It_deviceService;
 import models.entites.jpa.ItDevices.*;
@@ -22,7 +28,7 @@ public class ItdeviceController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    static final Logger log = Logger.getLogger("ItDEviceController");
+    static final Logger log = Logger.getLogger("ItDeviceController");
 
     @ManagedProperty(value = "#{loginController}")
     private
@@ -103,6 +109,7 @@ public class ItdeviceController implements Serializable {
     public void addTicket(){
         this.newTicket.setRequester(loginController.getUser());
         this.newTicket.setIt_device(ticketDevice);
+        this.newTicket.setStatus("Pending");
         is.addUpdateTicket(newTicket);
 
     }
