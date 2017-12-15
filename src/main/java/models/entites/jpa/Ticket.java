@@ -17,6 +17,8 @@ public class Ticket implements Serializable {
     private String initialIssue;
     private String supportMessage;
 
+    private boolean editable;
+
     @ManyToOne
     @JoinColumn(name="requester_id")
     private User requester;
@@ -28,6 +30,17 @@ public class Ticket implements Serializable {
     @JoinColumn(name="device_id")
     private It_device it_device;
 
+    public Ticket() {
+    }
+
+    public Ticket(String initialIssue, String supportMessage, User requester, It_device it_device,User supportStaff) {
+        this.supportStaff = supportStaff;
+        this.initialIssue = initialIssue;
+        this.supportMessage = supportMessage;
+        this.requester = requester;
+        this.it_device = it_device;
+        this.editable = false;
+    }
 
     public String getStatus() {
         return status;
@@ -83,5 +96,13 @@ public class Ticket implements Serializable {
 
     public void setIt_device(It_device it_device) {
         this.it_device = it_device;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

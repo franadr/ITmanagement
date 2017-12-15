@@ -56,6 +56,7 @@ public class It_deviceServiceImpl implements It_deviceService {
     @Override
     public boolean addUpdateTicket(Ticket t) {
         try{
+            logger.info("This ticket updatable "+t.isEditable());
             em.merge(t);
             return true;
         }catch(Exception e){

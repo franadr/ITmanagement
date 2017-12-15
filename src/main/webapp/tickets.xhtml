@@ -42,7 +42,6 @@
                                     </b:panel>
                                 </b:formGroup>
                             </b:formGroup>
-
                             <b:formGroup>
                                 <b:panel title="All tickets registered in the system" collapsed="true" >
                                         <b:dataTable value="#{itdeviceController.ticketList}"
@@ -53,13 +52,13 @@
                                             <b:dataTableColumn value="#{ticketEdit.initialIssue}" label="Issue "/>
                                             <b:dataTableColumn value="#{ticketEdit.requester.username}" label="Reporter user"/>
                                             <b:dataTableColumn label="Support message" >
-                                                <h:outputText value="#{ticketEdit.supportMessage}" rendered="#{not itdeviceController.editMessage}"/>
-                                                <b:inputText placeholder=" " value="#{itdeviceController.newSupportTicketMessage}" rendered="#{itdeviceController.editMessage}"/>
+                                                <h:outputText value="#{ticketEdit.supportMessage}" rendered="#{not ticketEdit.editable}"/>
+                                                <b:inputText placeholder="#{ticketEdit.supportMessage}" value="#{itdeviceController.newSupportTicketMessage}" rendered="#{ticketEdit.editable}"/>
                                                 <b:message/>
-                                                <b:commandButton value="edit" update="@form" action="#{itdeviceController.editMessageTrigger}" rendered="#{not itdeviceController.editMessage}"/>
-                                                <b:commandButton value="Save" action="#{itdeviceController.updateTicket(ticketEdit)}" update="@form" rendered="#{ itdeviceController.editMessage}" />
+                                                <b:commandButton value="edit" update="@form" action="#{itdeviceController.editMessageTrigger(ticketEdit)}" rendered="#{not ticketEdit.editable}"/>
+                                                <b:commandButton value="Save" action="#{itdeviceController.updateTicket(ticketEdit,true)}" update="@form" rendered="#{ ticketEdit.editable}" />
                                             </b:dataTableColumn>
-                                            <b:dataTableColumn value="#{ticketEdit.supportStaff.username}"/>
+                                            <b:dataTableColumn label="Handler " value="#{ticketEdit.supportStaff.username}"/>
                                         </b:dataTable>
                                 </b:panel>
                             </b:formGroup>

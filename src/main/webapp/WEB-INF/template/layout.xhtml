@@ -17,7 +17,7 @@
         <ui:insert name="header">
             <b:navBar brand="IT device management" fixed="top" >
                 <b:navbarLinks>
-                        <b:navLink value="Device list" href="#" rendered="#{loginController.user.ug.user_group_id eq 3}"/>
+                        <b:navLink value="Device list" href="/home.xhtml" rendered="#{loginController.user.ug.user_group_id eq 3}"/>
                         <b:dropMenu value="Devices" iconAwesome="desktop" iconAlign="right"
                                     rendered="#{(loginController.user.ug.user_group_id eq 2) or (loginController.user.ug.user_group_id eq 1)}">
                             <b:navLink value="All devices"  href="/home.xhtml"/>

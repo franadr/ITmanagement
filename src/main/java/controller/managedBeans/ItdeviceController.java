@@ -129,12 +129,16 @@ public class ItdeviceController implements Serializable {
 
     }
 
-    public void updateTicket(Ticket t){
-        log.info(newSupportTicketMessage);
-        t.setSupportMessage(newSupportTicketMessage);
-        t.setSupportStaff(loginController.getUser());
+    public void updateTicket(Ticket t,boolean flag){
+        if(flag){
+            log.info(newSupportTicketMessage);
+            t.setSupportMessage(newSupportTicketMessage);
+            t.setSupportStaff(loginController.getUser());
+
+            t.setEditable(false);
+            this.editMessage = false;
+        }
         is.addUpdateTicket(t);
-        this.editMessage = false;
 
     }
 
@@ -178,8 +182,9 @@ public class ItdeviceController implements Serializable {
         return laptopTypes;
     }
 
-    public void editMessageTrigger(){
-        this.editMessage = true;
+    public void editMessageTrigger(Ticket t){
+        t.setEditable(true);
+        updateTicket(t,false);
     }
 
     public Laptop getNewLaptop() {
@@ -271,6 +276,8 @@ public class ItdeviceController implements Serializable {
     }
 
     public List<Ticket> getTicketList() {
+        log.info(" Some is editable"+((Ticket)is.getTickets().get(1)).isEditable());
+
         return is.getTickets();
     }
 
