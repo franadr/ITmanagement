@@ -30,8 +30,7 @@
                                 </b:panel>
                                 <b:formGroup>
                                     <b:panel collapsed="true" title="All problems registered with #{itdeviceController.ticketDevice.device_name}" rendered="#{  not empty itdeviceController.ticketDevice.device_name
-                                                                                                                                and (loginController.user.ug.user_group_name eq 'admin'
-                                                                                                                                or loginController.user.ug.user_group_name eq 'itsupport')}">
+                                                                                                                                }">
                                         <b:dataTable value="#{itdeviceController.ticketListByDevice}"
                                                      var="ticket" pdf="true" >
                                             <b:dataTableColumn value="#{ticket.initialIssue}"/>
@@ -44,10 +43,9 @@
                             </b:formGroup>
                             <b:formGroup>
                                 <b:panel title="All tickets registered in the system" collapsed="true" >
-                                        <b:dataTable value="#{itdeviceController.ticketList}"
-                                                     var="ticketEdit" pdf="true"
-                                                     rendered="#{(loginController.user.ug.user_group_name eq 'admin'
-                                                               or loginController.user.ug.user_group_name eq 'itsupport')}">
+                                        <b:dataTable value="#{itdeviceController.ticketList}" rendered="#{(loginController.user.ug.user_group_name eq 'admin'
+                                                               or loginController.user.ug.user_group_name eq 'itsupport')}"
+                                                     var="ticketEdit" pdf="true">
                                             <b:dataTableColumn value="#{ticketEdit.it_device.device_name}" />
                                             <b:dataTableColumn value="#{ticketEdit.initialIssue}" label="Issue "/>
                                             <b:dataTableColumn value="#{ticketEdit.requester.username}" label="Reporter user"/>
