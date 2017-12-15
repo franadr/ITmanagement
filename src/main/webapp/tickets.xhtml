@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <f:metadata>
     <f:viewAction action="#{loginController.roleCheck(['admin','itsupport','user'])}" />
 </f:metadata>
@@ -22,39 +22,48 @@
                                 <f:selectItems value="#{itdeviceController.deviceList}" var="device" itemLabel="#{device.device_name}" itemValue="#{device}" />
                             </b:selectOneMenu>
                             <b:formGroup>
-                                <b:panel title="Report a problem with #{itdeviceController.ticketDevice.device_name}" rendered="#{not empty itdeviceController.ticketDevice.device_name}">
-                                    <b:inputTextarea placeholder="Please describe your problem ... " value="#{itdeviceController.newTicket.initialIssue}"/>
+                                <b:panel collapsed="true" title="Report a problem with #{itdeviceController.ticketDevice.device_name}" rendered="#{not empty itdeviceController.ticketDevice.device_name}">
+                                    <p:inputTextarea placeholder="Please describe your problem ... " value="#{itdeviceController.newTicketMessage}" cols="100" counter="counter1" maxlength="255" counterTemplate="{0} chars remaining" />
+                                    <b:message/>
+                                    <h:outputText id="counter1"/>
                                     <b:commandButton update="@form" value="Submit" action="#{itdeviceController.addTicket}"/>
                                 </b:panel>
-                                <b:panel title="All problems registered with #{itdeviceController.ticketDevice.device_name}" rendered="#{  not empty itdeviceController.ticketDevice.device_name
+                                <b:formGroup>
+                                    <b:panel collapsed="true" title="All problems registered with #{itdeviceController.ticketDevice.device_name}" rendered="#{  not empty itdeviceController.ticketDevice.device_name
                                                                                                                                 and (loginController.user.ug.user_group_name eq 'admin'
                                                                                                                                 or loginController.user.ug.user_group_name eq 'itsupport')}">
-                                    <b:dataTable value="#{itdeviceController.ticketListByDevice}"
-                                                 var="ticket" pdf="true" >
-                                        <b:dataTableColumn value="#{ticket.status}" />
-                                        <b:dataTableColumn value="#{ticket.initialIssue}"/>
-                                        <b:dataTableColumn value="#{ticket.requester.username}" label="Reporter user"/>
-                                        <b:dataTableColumn value="#{ticket.supportMessage}"/>
-                                        <b:dataTableColumn value="#{ticket.supportStaff.username}"/>
-                                    </b:dataTable>
-                                </b:panel>
-                                <b:panel title="All tickets registered" rendered="#{(loginController.user.ug.user_group_name eq 'admin'
-                                                                                                                                or loginController.user.ug.user_group_name eq 'itsupport')}">
-                                    <b:dataTable value="#{itdeviceController.ticketList}"
-                                                 var="ticket" pdf="true" >
-                                        <b:dataTableColumn value="#{ticket.it_device.device_name}" />
-                                        <b:dataTableColumn value="#{ticket.status}" />
-                                        <b:dataTableColumn value="#{ticket.initialIssue}"/>
-                                        <b:dataTableColumn value="#{ticket.requester.username}" label="Reporter user"/>
-                                        <b:dataTableColumn value="#{ticket.supportMessage}"/>
-                                        <b:dataTableColumn value="#{ticket.supportStaff.username}"/>
-                                    </b:dataTable>
-                                </b:panel>
+                                        <b:dataTable value="#{itdeviceController.ticketListByDevice}"
+                                                     var="ticket" pdf="true" >
+                                            <b:dataTableColumn value="#{ticket.initialIssue}"/>
+                                            <b:dataTableColumn value="#{ticket.requester.username}" label="Reporter user"/>
+                                            <b:dataTableColumn value="#{ticket.supportMessage}"/>
+                                            <b:dataTableColumn value="#{ticket.supportStaff.username}"/>
+                                        </b:dataTable>
+                                    </b:panel>
+                                </b:formGroup>
                             </b:formGroup>
 
-
+                            <b:formGroup>
+                                <b:panel title="All tickets registered in the system" collapsed="true" >
+                                        <b:dataTable value="#{itdeviceController.ticketList}"
+                                                     var="ticketEdit" pdf="true"
+                                                     rendered="#{(loginController.user.ug.user_group_name eq 'admin'
+                                                               or loginController.user.ug.user_group_name eq 'itsupport')}">
+                                            <b:dataTableColumn value="#{ticketEdit.it_device.device_name}" />
+                                            <b:dataTableColumn value="#{ticketEdit.initialIssue}" label="Issue "/>
+                                            <b:dataTableColumn value="#{ticketEdit.requester.username}" label="Reporter user"/>
+                                            <b:dataTableColumn label="Support message" >
+                                                <h:outputText value="#{ticketEdit.supportMessage}" rendered="#{not itdeviceController.editMessage}"/>
+                                                <b:inputText placeholder=" " value="#{itdeviceController.newSupportTicketMessage}" rendered="#{itdeviceController.editMessage}"/>
+                                                <b:message/>
+                                                <b:commandButton value="edit" update="@form" action="#{itdeviceController.editMessageTrigger}" rendered="#{not itdeviceController.editMessage}"/>
+                                                <b:commandButton value="Save" action="#{itdeviceController.updateTicket(ticketEdit)}" update="@form" rendered="#{ itdeviceController.editMessage}" />
+                                            </b:dataTableColumn>
+                                            <b:dataTableColumn value="#{ticketEdit.supportStaff.username}"/>
+                                        </b:dataTable>
+                                </b:panel>
+                            </b:formGroup>
                         </b:form>
-
                     </b:panel>
             </b:row>
         </ui:define>

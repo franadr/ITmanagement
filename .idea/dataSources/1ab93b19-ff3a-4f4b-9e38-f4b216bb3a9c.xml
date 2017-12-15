@@ -4226,34 +4226,48 @@
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="955" parent="299" name="requester_id">
+    <column id="955" parent="299" name="device_id">
       <Position>5</Position>
       <DataType>bigint(20)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="956" parent="299" name="supportStaff_id">
+    <column id="956" parent="299" name="requester_id">
       <Position>6</Position>
       <DataType>bigint(20)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="957" parent="299" name="FK53rvyaxk6qn0rq67ys1196vho">
+    <column id="957" parent="299" name="supportStaff_id">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="958" parent="299" name="FKi32iu3aa3aby22mxid3blcbn2">
+      <ColNames>device_id</ColNames>
+    </index>
+    <index id="959" parent="299" name="FK53rvyaxk6qn0rq67ys1196vho">
       <ColNames>requester_id</ColNames>
     </index>
-    <index id="958" parent="299" name="FKn8kk2rxuhfmtqody1jcnh3ebe">
+    <index id="960" parent="299" name="FKn8kk2rxuhfmtqody1jcnh3ebe">
       <ColNames>supportStaff_id</ColNames>
     </index>
-    <key id="959" parent="299" name="PRIMARY">
+    <key id="961" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ticket_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="960" parent="299" name="FK53rvyaxk6qn0rq67ys1196vho">
+    <foreign-key id="962" parent="299" name="FKi32iu3aa3aby22mxid3blcbn2">
+      <ColNames>device_id</ColNames>
+      <RefSchemaName>javaee</RefSchemaName>
+      <RefTableName>it_device</RefTableName>
+      <RefColNames>device_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="963" parent="299" name="FK53rvyaxk6qn0rq67ys1196vho">
       <ColNames>requester_id</ColNames>
       <RefSchemaName>javaee</RefSchemaName>
       <RefTableName>User</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <foreign-key id="961" parent="299" name="FKn8kk2rxuhfmtqody1jcnh3ebe">
+    <foreign-key id="964" parent="299" name="FKn8kk2rxuhfmtqody1jcnh3ebe">
       <ColNames>supportStaff_id</ColNames>
       <RefSchemaName>javaee</RefSchemaName>
       <RefTableName>User</RefTableName>

@@ -33,8 +33,8 @@
                                 <b:dataTableColumn value="#{laptop.disk_space}" />
                                 <b:dataTableColumn value="#{laptop.manufacturer}" />
                                 <b:dataTableColumn value="#{laptop.RAM}" />
-                                <b:dataTableColumn>
-                                    <b:commandButton look="warning" value="Delete" ajax="true" update="laptopForm" action="#{itdeviceController.removedevice(laptop)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
+                                <b:dataTableColumn rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Option">
+                                    <b:commandButton look="warning" value="Delete" ajax="true" update="laptopForm" action="#{itdeviceController.removedevice(laptop)}"  />
                                 </b:dataTableColumn>
                             </b:dataTable>
                             <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Laptop" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />
@@ -51,8 +51,8 @@
                                 <b:dataTableColumn value="#{printer.mac_address}"/>
                                 <b:dataTableColumn value="#{printer.location}"/>
                                 <b:dataTableColumn value="#{printer.color}"/>
-                                <b:dataTableColumn label="Option">
-                                    <b:commandButton look="warning" value="Delete" ajax="true" update="printerForm" action="#{itdeviceController.removedevice(printer)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
+                                <b:dataTableColumn rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Option">
+                                    <b:commandButton look="warning" value="Delete" ajax="true" update="printerForm" action="#{itdeviceController.removedevice(printer)}"  />
                                 </b:dataTableColumn>
                             </b:dataTable>
                             <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Printer" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />
@@ -72,8 +72,8 @@
                                 <b:dataTableColumn value="#{desktop.disk_space}" />
                                 <b:dataTableColumn value="#{desktop.manufacturer}" />
                                 <b:dataTableColumn value="#{desktop.RAM}" />
-                                <b:dataTableColumn>
-                                    <b:commandButton look="warning" value="Delete" ajax="true" update="desktopForm" action="#{itdeviceController.removedevice(desktop)}" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}"  />
+                                <b:dataTableColumn rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" label="Option" >
+                                    <b:commandButton look="warning" value="Delete" ajax="true" update="desktopForm" action="#{itdeviceController.removedevice(desktop)}" />
                                 </b:dataTableColumn>
                             </b:dataTable>
                             <b:button href="/ItDeviceManagement.xhtml?faces-redirect=true" look="success" value="Add or modify a Desktop" rendered="#{(loginController.user.ug.user_group_id eq 1) or loginController.user.ug.user_group_id eq 2}" />

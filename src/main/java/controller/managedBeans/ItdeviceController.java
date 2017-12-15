@@ -17,6 +17,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,18 @@ public class ItdeviceController implements Serializable {
     private List<Ticket> ticketListByDevice = new ArrayList<>();
     private List<Ticket> ticketList = new ArrayList<>();
 
+    private boolean editMessage = false;
+
     private Ticket newTicket = new Ticket();
+
+    @NotNull
+    @Size(min = 25,max = 255)
+    private String newTicketMessage = "";
+
+
+    @NotNull
+    @Size(min = 10, max= 255)
+    private String newSupportTicketMessage = "";
 
     private It_device ticketDevice;
 
@@ -110,7 +124,17 @@ public class ItdeviceController implements Serializable {
         this.newTicket.setRequester(loginController.getUser());
         this.newTicket.setIt_device(ticketDevice);
         this.newTicket.setStatus("Pending");
+        this.newTicket.setInitialIssue(newTicketMessage);
         is.addUpdateTicket(newTicket);
+
+    }
+
+    public void updateTicket(Ticket t){
+        log.info(newSupportTicketMessage);
+        t.setSupportMessage(newSupportTicketMessage);
+        t.setSupportStaff(loginController.getUser());
+        is.addUpdateTicket(t);
+        this.editMessage = false;
 
     }
 
@@ -152,6 +176,10 @@ public class ItdeviceController implements Serializable {
     public List<Laptop_type> getLaptopTypes() {
         this.laptopTypes = is.getLaptopType();
         return laptopTypes;
+    }
+
+    public void editMessageTrigger(){
+        this.editMessage = true;
     }
 
     public Laptop getNewLaptop() {
@@ -248,5 +276,29 @@ public class ItdeviceController implements Serializable {
 
     public void setTicketList(List<Ticket> ticketList) {
         this.ticketList = ticketList;
+    }
+
+    public String getNewTicketMessage() {
+        return newTicketMessage;
+    }
+
+    public void setNewTicketMessage(String newTicketMessage) {
+        this.newTicketMessage = newTicketMessage;
+    }
+
+    public String getNewSupportTicketMessage() {
+        return newSupportTicketMessage;
+    }
+
+    public void setNewSupportTicketMessage(String newSupportTicketMessage) {
+        this.newSupportTicketMessage = newSupportTicketMessage;
+    }
+
+    public boolean isEditMessage() {
+        return editMessage;
+    }
+
+    public void setEditMessage(boolean editMessage) {
+        this.editMessage = editMessage;
     }
 }

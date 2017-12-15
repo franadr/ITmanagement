@@ -59,19 +59,19 @@ public class SetupBean {
 
         logger.info("Database insertion finished");
 
-        Thread t = new Thread(() -> {
-            int i = 0;
-            while(true){
-                logger.info("Counter : "+i++);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
-        t.start();
+//        Thread t = new Thread(() -> {
+//            int i = 0;
+//            while(true){
+//                logger.info("Counter : "+i++);
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        });
+//        t.start();
     }
 
 
