@@ -13,6 +13,7 @@ import models.entites.jpa.ItDevices.Printer;
 import models.entites.jpa.Ticket;
 import models.entites.jpa.User;
 import models.entites.jpa.User_group;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -43,9 +44,9 @@ public class SetupBean {
         logger.info("Groups inserted");
 
         //Users init
-        User u1 = em.merge(new User("admin","adminadmin",ug1));
-        User u2 = em.merge(new User("itsupport","testme",ug2));
-        User u3 = em.merge(new User("user","useruser",ug3));
+        User u1 = em.merge(new User("admin",BCrypt.hashpw("adminadmin",BCrypt.gensalt()),ug1));
+        User u2 = em.merge(new User("itsupport",BCrypt.hashpw("testme",BCrypt.gensalt()),ug2));
+        User u3 = em.merge(new User("user",BCrypt.hashpw("useruser",BCrypt.gensalt()),ug3));
         logger.info("Users inserted");
 
         //Laptop types init
@@ -61,6 +62,7 @@ public class SetupBean {
         Desktop d1 = em.merge(new Desktop(u3,"5E:FF:56:A2:AF:15","Dell HP1",3400.0,4,16,1024,"Dell computers"));
         Printer p1 = em.merge(new Printer(u3,"5E:FF:56:A2:AF:15","Samsung MF2070W",false,"first floor"));
         logger.info("Devices inserted");
+
 
         //Issue init
 

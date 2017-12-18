@@ -1,6 +1,7 @@
 package Services.Implementation;
 
 import models.entites.jpa.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
@@ -21,10 +22,14 @@ public class LoginService {
         try{
             User user = (User) em
                     .createQuery(
-                            "SELECT u from User u where u.username = :name and u.password = :password")
+                            "SELECT u from User u where u.username = :name ")
                     .setParameter("name", u.getUsername())
-                    .setParameter("password", u.getPassword()).getSingleResult();
+                    .getSingleResult();
+
+            if(BCrypt.checkpw(u.getPassword(),user.getPassword()))
             return user;
+            else
+                throw  new NoResultException();
         }catch(NoResultException e){
             logger.warning(e.getLocalizedMessage());
             return null;

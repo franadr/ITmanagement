@@ -25,7 +25,6 @@ public abstract class It_device implements Serializable{
     List<Ticket> issues;
 
 
-
     private String mac_address;
     private String device_name;
 
